@@ -6,8 +6,6 @@ using WebApp.Models;
 using WebApp.Controllers;
 namespace espacioController;
 
-[ApiController]
-[Route("[controller]")]
 public class TableroController : Controller{
     private readonly ILogger<HomeController> _logger;
     private static List<Tablero> tableros = new List<Tablero>();
@@ -26,28 +24,28 @@ public class TableroController : Controller{
     }
 
     [HttpGet]
-    public IActionResult agregarTablero(){ //Si agrego parametros envia un bad request
+    public IActionResult AgregarTablero(){ //Si agrego parametros envia un bad request
         return View(new Tablero());
     }
 
     [HttpPost]
-    public IActionResult agregarTableroFromForm([FromForm] Tablero tablero){
+    public IActionResult AgregarTableroFromForm([FromForm] Tablero tablero){
         tableroRepository.CreateTablero(tablero);
         return RedirectToAction("Index");
     }
 
     [HttpGet]
-    public IActionResult editarTablero(int idTablero){  
+    public IActionResult EditarTablero(int idTablero){  
         return View(tableroRepository.GetTableroByID(idTablero));
     }
 
     [HttpPost]
-    public IActionResult editarTableroFromForm([FromForm] Tablero tablero){
+    public IActionResult EditarTableroFromForm([FromForm] Tablero tablero){
         tableroRepository.UpdateTablero(tablero);
         return RedirectToAction("Index");
     }
 
-    public IActionResult deleteTablero(int idTablero){
+    public IActionResult DeleteTablero(int idTablero){
         tableroRepository.RemoveTablero(idTablero);
         return RedirectToAction("Index");
     }

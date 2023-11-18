@@ -6,8 +6,6 @@ using WebApp.Models;
 using WebApp.Controllers;
 namespace espacioController;
 
-[ApiController]
-[Route("[controller]")]
 public class UsuarioController : Controller{
     private readonly ILogger<HomeController> _logger;
     private static List<Usuario> usuarios = new List<Usuario>();
@@ -26,31 +24,32 @@ public class UsuarioController : Controller{
     }
 
     [HttpGet]
-    public IActionResult agregarUsuario(){ //Si agrego parametros envia un bad request
+    public IActionResult AgregarUsuario(){ //Si agrego parametros envia un bad request
         return View(new Usuario());
     }
 
     [HttpPost]
-    public IActionResult agregarUsuarioFromForm([FromForm] Usuario usuario){
+    public IActionResult AgregarUsuarioFromForm([FromForm] Usuario usuario){
         repositoryUsuario.CreateUsuario(usuario);
         return RedirectToAction("Index");
     }
 
     [HttpGet]
-    public IActionResult editarUsuario(int idUsuario){  
+    public IActionResult EditarUsuario(int idUsuario){  
         return View(repositoryUsuario.GetUsuarioByID(idUsuario));
     }
 
     [HttpPost]
-    public IActionResult editarUsuarioFromForm([FromForm] Usuario usuario, int id){
+    public IActionResult EditarUsuarioFromForm([FromForm] Usuario usuario, int id){
         repositoryUsuario.UpdateUsuario(usuario, id);
         return RedirectToAction("Index");
     }
 
-    public IActionResult DeleteUser(int idUsuario){
+    public IActionResult DeleteUsuario(int idUsuario){
         repositoryUsuario.RemoveUsuario(idUsuario);
         return RedirectToAction("Index");
     }
+
 
     public IActionResult Privacy(){
         return View();

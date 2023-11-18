@@ -68,7 +68,7 @@ public class TareaRepository : ITareaRepository{
                     tarea.Descripcion = reader["descripcion"].ToString();
                     tarea.Color = reader["color"].ToString();
                     tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
-                    if(Enum.TryParse(typeof(estadoTarea), reader["estadoTarea"].ToString(), out var estado)){
+                    if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                         tarea.Estado = (estadoTarea)estado;
                     }
                     else{
@@ -98,7 +98,7 @@ public class TareaRepository : ITareaRepository{
                     tarea.Descripcion = reader["descripcion"].ToString();
                     tarea.Color = reader["color"].ToString();
                     tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
-                    if(Enum.TryParse(typeof(estadoTarea), reader["estadoTarea"].ToString(), out var estado)){
+                    if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                         tarea.Estado = (estadoTarea)estado;
                     }
                     else{
@@ -127,7 +127,7 @@ public class TareaRepository : ITareaRepository{
                     tarea.Descripcion = reader["descripcion"].ToString();
                     tarea.Color = reader["color"].ToString();
                     tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
-                    if(Enum.TryParse(typeof(estadoTarea), reader["estadoTarea"].ToString(), out var estado)){
+                    if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                         tarea.Estado = (estadoTarea)estado;
                     }
                     else{
@@ -170,7 +170,7 @@ public class TareaRepository : ITareaRepository{
                     tarea.Descripcion = reader["descripcion"].ToString();
                     tarea.Color = reader["color"].ToString();
                     tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
-                    if(Enum.TryParse(typeof(estadoTarea), reader["estadoTarea"].ToString(), out var est)){
+                    if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var est)){
                         tarea.Estado = (estadoTarea)est;
                     }
                     else{

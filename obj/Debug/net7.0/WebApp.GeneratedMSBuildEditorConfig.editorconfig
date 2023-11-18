@@ -9,61 +9,77 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebApp
 build_property.RootNamespace = WebApp
-build_property.ProjectDir = c:\Catedras_facultad\TallerDeLenguajes\tl2-tp10-2023-Tadeo-AR26\
+build_property.ProjectDir = C:\Catedras_facultad\TallerDeLenguajes\tl2-tp10-2023-Tadeo-AR26\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Catedras_facultad\TallerDeLenguajes\tl2-tp10-2023-Tadeo-AR26
+build_property.MSBuildProjectDirectory = C:\Catedras_facultad\TallerDeLenguajes\tl2-tp10-2023-Tadeo-AR26
 build_property._RazorSourceGeneratorDebug = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Home/Index.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Home/Privacy.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Shared/Error.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Tablero/agregarTablero.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Tablero/agregarTablero.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xhZ3JlZ2FyVGFibGVyby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Tablero/editarTablero.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Tablero/editarTablero.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xlZGl0YXJUYWJsZXJvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Tablero/index.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Tablero/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVyb1xpbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Usuario/agregarUsuario.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Tarea/agregarTarea.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcYWdyZWdhclRhcmVhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Tarea/editarTarea.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcZWRpdGFyVGFyZWEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Tarea/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFyZWFcaW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Usuario/agregarUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xhZ3JlZ2FyVXN1YXJpby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Usuario/editarUsuario.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Usuario/editarUsuario.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xlZGl0YXJVc3VhcmlvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Usuario/index.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Usuario/eliminarUsuario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xlbGltaW5hclVzdWFyaW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Usuario/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb1xpbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/_ViewImports.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/_ViewStart.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Shared/_Layout.cshtml]
+[C:/Catedras_facultad/TallerDeLenguajes/tl2-tp10-2023-Tadeo-AR26/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-7882z672yd

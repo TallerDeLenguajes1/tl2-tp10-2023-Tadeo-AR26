@@ -2,7 +2,7 @@
     ViewData["Title"] = "Tareas";
 }
 
-@model List<Tarea>
+@model List<espacioViewModels.ListarTareaViewModel>
 
 <h2>Tarea List</h2>
 
@@ -24,7 +24,7 @@
         {
             <tr>
                 <td hidden>@tarea.Id</td>
-                <td>@tarea.Id_tablero</td>
+                <td>@tarea.IdTablero</td>
                 <td>@tarea.Nombre</td>
                 <td>@tarea.Estado</td>
                 <td>@tarea.Descripcion</td>

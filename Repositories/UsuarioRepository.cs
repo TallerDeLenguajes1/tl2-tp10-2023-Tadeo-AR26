@@ -20,7 +20,7 @@ public class UsuarioRepository : IUsuarioRepository{
     public List<Usuario> GetAllUsuarios(){
         var queryString = @"SELECT * FROM usuario;";
         List<Usuario> usuarios = new List<Usuario>();
-        
+
         using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
@@ -69,7 +69,8 @@ public class UsuarioRepository : IUsuarioRepository{
         return result;
     }
 
-    public Usuario UpdateUsuario(Usuario usuario, int id){
+    public Usuario UpdateUsuario(Usuario usuario){
+        int id = usuario.Id;
         var queryString = @"UPDATE usuario SET nombre_de_usuario = @nombre WHERE id_usuario = @id;";
         using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);

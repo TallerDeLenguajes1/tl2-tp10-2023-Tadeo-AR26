@@ -2,7 +2,7 @@
     ViewData["Title"] = "Usuarios";
 }
 
-@model List<Usuario>
+@model List<espacioViewModels.ListarUsuarioViewModel>
 
 <h2>Lista Usuarios</h2>
 
@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Usuario usuario in Model)
+        @foreach (var usuario in Model)
         {
             <tr>
                 <td hidden>@usuario.Id</td>

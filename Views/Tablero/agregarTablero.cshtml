@@ -2,7 +2,7 @@
     ViewData["Title"] = "Agregar Tablero";
 }
 
-@model Tablero
+@model espacioViewModels.AgregarTableroViewModel
 
 <h1>@ViewData["Title"]</h1>
 <form asp-controller="Tablero" asp-action="AgregarTableroFromForm" method="post">
@@ -24,3 +24,5 @@
     </div>
     <button type="submit" class="btn btn-primary" >Enviar</button>
 </form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

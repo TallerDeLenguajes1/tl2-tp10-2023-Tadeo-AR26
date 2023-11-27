@@ -2,7 +2,7 @@
     ViewData["Title"] = "Tableros";
 }
 
-@model List<Tablero>
+@model List<espacioViewModels.ListarTableroViewModel>
 
 <h2>Tablero List</h2>
 
@@ -37,3 +37,5 @@
         </tr>
     </tfoot>
 </table>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

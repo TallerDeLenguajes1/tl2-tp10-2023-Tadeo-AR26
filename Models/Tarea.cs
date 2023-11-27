@@ -22,4 +22,30 @@ public class Tarea{
     public string Descripcion { get => descripcion; set => descripcion = value; }
     public string Color { get => color; set => color = value; }
     public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
+
+
+    public static Tarea FromEditarTareaViewModel(EditarTareaViewModel tareaVM)
+    {
+        return new Tarea{
+            id = tareaVM.Id,
+            id_tablero = tareaVM.Id_tablero,
+            nombre = tareaVM.Nombre,
+            descripcion = tareaVM.Descripcion,
+            color = tareaVM.Color,
+            estado = (estadoTarea)tareaVM.Estado,
+            idUsuarioAsignado = tareaVM.IdUsuarioAsignado,
+        };
+    }
+
+    public static Tarea FromAgregarTareaViewModel(CrearTareaViewModel tareaVM){
+        return new Tarea{
+            id = tareaVM.Id,
+            idTablero = tareaVM.Id_tablero,
+            nombre = tareaVM.Nombre,
+            descripcion = tareaVM.Descripcion,
+            color = tareaVM.Color,
+            estado = (estadoTarea)tareaVM.Estado,
+            idUsuarioAsignado = tareaVM.IdUsuarioAsignado,
+        };
+    }
 }

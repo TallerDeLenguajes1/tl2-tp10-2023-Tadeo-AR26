@@ -1,3 +1,5 @@
+using espacioViewModels;
+
 namespace espacioKanban;
 
 public enum estadoTarea{
@@ -28,7 +30,7 @@ public class Tarea{
     {
         return new Tarea{
             id = tareaVM.Id,
-            id_tablero = tareaVM.Id_tablero,
+            id_tablero = tareaVM.IdTablero,
             nombre = tareaVM.Nombre,
             descripcion = tareaVM.Descripcion,
             color = tareaVM.Color,
@@ -37,10 +39,10 @@ public class Tarea{
         };
     }
 
-    public static Tarea FromAgregarTareaViewModel(CrearTareaViewModel tareaVM){
+    public static Tarea FromAgregarTareaViewModel(AgregarTareaViewModel tareaVM){
         return new Tarea{
             id = tareaVM.Id,
-            idTablero = tareaVM.Id_tablero,
+            id_tablero = tareaVM.IdTablero,
             nombre = tareaVM.Nombre,
             descripcion = tareaVM.Descripcion,
             color = tareaVM.Color,

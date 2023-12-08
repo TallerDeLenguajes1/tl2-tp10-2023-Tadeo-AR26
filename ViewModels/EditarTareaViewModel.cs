@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using espacioKanban;
 namespace espacioViewModels;
 
- class EditarTareaViewModel{
+public class EditarTareaViewModel{
     private int id;
     [Required(ErrorMessage = "Campo requerido")]
     [Display(Name = "Id")]
@@ -39,8 +39,9 @@ namespace espacioViewModels;
     [Display(Name = "Id Usuario Asignado")]
     public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
 
+    public EditarTareaViewModel(){}
 
-    public static EditarTareaViewModel FromTarea(Tarea newTarea){
+    public EditarTareaViewModel (Tarea newTarea){
         EditarTareaViewModel newTVM = new EditarTareaViewModel();
         newTVM.id = newTarea.Id;
         newTVM.idTablero = newTarea.Id_tablero;
@@ -49,6 +50,5 @@ namespace espacioViewModels;
         newTVM.descripcion = newTarea.Descripcion;
         newTVM.color = newTarea.Color;
         newTVM.idUsuarioAsignado = newTarea.IdUsuarioAsignado;
-        return(newTVM);
     }
 }

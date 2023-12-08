@@ -1,7 +1,15 @@
+using espacioRepositories;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddScoped<ITareaRepository, TareaRepository>();
+builder.Services.AddScoped<ITableroRepository, TableroRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
 builder.Services.AddSession(options =>//se agrega para login***********************************
 {
     options.IdleTimeout = TimeSpan.FromSeconds(500000);

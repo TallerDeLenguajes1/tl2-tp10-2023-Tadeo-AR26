@@ -9,74 +9,108 @@ namespace espacioController;
 
 public class UsuarioController : Controller{
     private readonly ILogger<HomeController> _logger;
+    private readonly IUsuarioRepository _usuarioRepository;
     private static List<Usuario> usuarios = new List<Usuario>();
-    UsuarioRepository repositoryUsuario;
 
-    public UsuarioController(ILogger<HomeController> logger){
+    public UsuarioController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository){
         _logger = logger;
-        repositoryUsuario = new UsuarioRepository();
+        _usuarioRepository = usuarioRepository;
     }
 
 
     //Muestra Usuarios
     public IActionResult Index(){
-        if(!isLogin()) return RedirectToAction("Index", "Login");
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
 
-        List<Usuario> listaUsuarios = repositoryUsuario.GetAllUsuarios();
-        List<ListarUsuarioViewModel> listarUsuariosVM = ListarUsuarioViewModel.FromUsuario(listaUsuarios);
-        return View(listarUsuariosVM);
+            if(isAdmin()){
+                usuarios = _usuarioRepository.GetAllUsuarios();
+            }
+            else{
+                Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario") && u.Contrasenia == HttpContext.Session.GetString("Password"));
+                usuarios.Add(usuario);
+            }
+            return View(usuarios);
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpGet]
     public IActionResult AgregarUsuario(){ //Si agrego parametros envia un bad request
-        if(!isLogin()){
-            return RedirectToAction("Index", "Login");
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!isAdmin()) return RedirectToAction("Index");
+            return View(new AgregarTableroViewModel());
         }
-        AgregarUsuarioViewModel nuevoUsuarioVM = new AgregarUsuarioViewModel();
-        return View(nuevoUsuarioVM);
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpPost]
     public IActionResult AgregarUsuarioFromForm([FromForm] AgregarUsuarioViewModel nuevoUsuarioVM){
-        if(!ModelState.IsValid){
-            return RedirectToAction("Index", "Login");
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!isAdmin()) return RedirectToAction("Index");
+            if(!ModelState.IsValid) return RedirectToAction("AgregarUsuario");
+            _usuarioRepository.CreateUsuario(new Usuario(nuevoUsuarioVM));
+            return RedirectToAction("Index");
         }
-        if(!isLogin()){
-            return RedirectToAction("Index", "Login");
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
         }
-        Usuario nuevoUsuario = Usuario.FromAgregarUsuarioViewModel(nuevoUsuarioVM);
-        repositoryUsuario.AgregarUsuario(nuevoUsuario);
-        return RedirectToAction("Index");
     }
 
     [HttpGet]
     public IActionResult EditarUsuario(int idUsuario){  
-        if(!isLogin()){
-            return RedirectToAction("Index", "Login");
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            Usuario usuario = _usuarioRepository.GetUsuarioByID(idUsuario);
+            if(usuario != null){
+                return View(new EditarUsuarioViewModel(usuario));
+            }
+            else{
+                return RedirectToAction("Index");
+            }
         }
-
-        Usuario usuarioAEditar = repositoryUsuario.GetUsuarioByID(idUsuario);
-        EditarUsuarioViewModel usuarioAEditarVM = EditarUsuarioViewModel.FromUsuario(usuarioAEditar);
-        return View(usuarioAEditarVM);
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+            
+        }
     }
 
     [HttpPost]
     public IActionResult EditarUsuarioFromForm([FromForm] EditarUsuarioViewModel usuarioAEditarVM){
-        if(!ModelState.IsValid){
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!isAdmin()) return RedirectToAction("Index");
+            if(!ModelState.IsValid) return RedirectToAction("AgregarUsuario");
+            _usuarioRepository.UpdateUsuario(new Usuario(usuarioAEditarVM));
             return RedirectToAction("Index");
         }
-        if(!isLogin()){
-            return RedirectToAction("Index", "Login");
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
         }
-
-        Usuario usuarioAEditar = Usuario.FromEditarUsuarioViewModel(usuarioAEditarVM);
-        repositoryUsuario.UpdateUsuario(usuarioAEditar);
-        return RedirectToAction("Index");
     }
 
     public IActionResult DeleteUsuario(int idUsuario){
-        repositoryUsuario.RemoveUsuario(idUsuario);
-        return RedirectToAction("Index");
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!isAdmin()) return RedirectToAction("Index");
+            _usuarioRepository.RemoveUsuario(idUsuario);
+            return RedirectToAction("Index");
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
 

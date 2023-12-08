@@ -25,12 +25,12 @@ public class EditarTableroViewModel{
     public string Nombre { get => nombre; set => nombre = value; }
     public string Descripcion { get => descripcion; set => descripcion = value; }
 
-    public static EditarTableroViewModel FromTablero(Tablero tablero){
-        return new EditarTableroViewModel{
-            id = tablero.Id,
-            idUsuarioPropietario = tablero.IdUsuarioPropietario,
-            nombre = tablero.Nombre,
-            descripcion = tablero.Descripcion
-        };
-    }
+    public EditarTableroViewModel(){}
+
+    public EditarTableroViewModel(Tablero tablero){
+            id = tablero.Id;
+            idUsuarioPropietario = tablero.IdUsuarioPropietario;
+            nombre = tablero.Nombre;
+            descripcion = tablero.Descripcion;
+        }
 }

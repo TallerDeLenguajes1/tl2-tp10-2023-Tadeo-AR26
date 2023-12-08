@@ -16,10 +16,23 @@ public class EditarUsuarioViewModel{
     [Display(Name = "Nuevo nombre de Usuario")]
     public string Nombre { get => nombreUsuario; set => nombreUsuario = value; }
 
-    public static EditarUsuarioViewModel FromUsuario(Usuario usuario){
-        return new EditarUsuarioViewModel{
-            nombreUsuario = usuario.NombreUsuario,
-            id = usuario.Id
-        };
+    private string contrasenia;
+    [Required(ErrorMessage = "Campo requerido")]
+    [DataType(DataType.Password)]
+    [Display(Name = "contrasenia")]
+    public string Contrasenia { get => contrasenia; set => contrasenia = value; }
+
+    private Roles rol;
+    [Required(ErrorMessage = "Campo requerido")]
+    [Display(Name = "Rol")]
+    public Roles Rol { get => rol; set => rol = value; }
+
+    public EditarUsuarioViewModel(){}
+
+    public EditarUsuarioViewModel(Usuario usuario){
+            nombreUsuario = usuario.NombreUsuario;
+            id = usuario.Id;
+            contrasenia = usuario.Contrasenia;
+            rol = usuario.Rol;
     }
 }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 using WebApp.Controllers;
+using espacioViewModels;
 namespace espacioController;
 
 public class TareaController : Controller{
@@ -17,7 +18,7 @@ public class TareaController : Controller{
     }
 
 
-    public IActionResult Index(int? idTablero){
+    public IActionResult Index(int idTablero){
         List<Tarea> listaTareas = null;
         if(!isLogin()){
             return RedirectToAction("Index", "Login");
@@ -25,9 +26,9 @@ public class TareaController : Controller{
         if(isAdmin()){
             listaTareas = tareaRepository.GetAllTareas();
         }
-        else if(idTablero.HasValue){
-            listaTareas = tareaRepository.GetAllTareasFromTablero(idTablero);
-        }
+        //else if(idTablero.HasValue){
+        //    listaTareas = tareaRepository.GetAllTareasFromTablero(idTablero);
+        //}
         else{
             return NotFound();
         }
@@ -55,7 +56,7 @@ public class TareaController : Controller{
         }
 
         Tarea nuevaTarea = Tarea.FromAgregarTareaViewModel(nuevaTareaVM);
-        TareaRepository.UpdateTarea(nuevaTarea);
+        tareaRepository.UpdateTarea(nuevaTarea);
         return RedirectToAction("Index");
     }
 
@@ -66,7 +67,7 @@ public class TareaController : Controller{
         }
         
         Tarea tareaAEditar = tareaRepository.GetTareaById(idTarea);
-        EditarTareaViewModel tareaAEditarVM = EditarTareaViewModel.FromTarea(tareaAEditar);
+        EditarTareaViewModel tareaAEditarVM = new EditarTareaViewModel(tareaAEditar);
         return View(tareaAEditarVM);
     }
 
@@ -80,7 +81,7 @@ public class TareaController : Controller{
         }
 
         Tarea tareaAEditar = Tarea.FromEditarTareaViewModel(tareaAEditarVM);
-        tareaRepository.UpdateTarea(tarea);
+        tareaRepository.UpdateTarea(tareaAEditar);
         return RedirectToAction("Index");
     }
 

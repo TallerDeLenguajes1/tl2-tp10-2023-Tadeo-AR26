@@ -6,11 +6,14 @@ public class UsuarioRepository : IUsuarioRepository{
     private string cadenaConexion = "Data source=DB/kanban.db;Cache=Shared";
 
     public Usuario CreateUsuario(Usuario usuario){
-        var queryString = @"Insert INTO usuario (nombre_de_usuario) VALUES(@nombre);";
+        var queryString = @"Insert INTO usuario (nombre_de_usuario, contrasenia, rol) VALUES(@nombre, @contrasenia, @rol);";
         using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@nombre", usuario.NombreUsuario));
+            command.Parameters.Add(new SQLiteParameter("@contrasenia", usuario.Contrasenia));
+            var rolString = Enum.GetName(typeof(Roles), usuario.Rol);
+            command.Parameters.Add(new SQLiteParameter("@rol", rolString));
             command.ExecuteNonQuery();
             connection.Close();
         }
@@ -29,6 +32,14 @@ public class UsuarioRepository : IUsuarioRepository{
                     var user = new Usuario();
                     user.Id = Convert.ToInt32(reader["id_usuario"]);
                     user.NombreUsuario = reader["nombre_de_usuario"].ToString();
+                    string rolString = reader["rol"].ToString();
+                    user.Contrasenia = reader["contrasenia"].ToString();
+                    if(Enum.TryParse<Roles>(rolString, out var RolEnum)){
+                        user.Rol = RolEnum;
+                    }
+                    else{
+                        user.Rol = Roles.simple;
+                    }
                     usuarios.Add(user);
                 }
             }
@@ -49,6 +60,14 @@ public class UsuarioRepository : IUsuarioRepository{
             while(reader.Read()){
                 user.Id = Convert.ToInt32(reader["id_usuario"]);
                 user.NombreUsuario = reader["nombre_de_usuario"].ToString();
+                user.Contrasenia = reader["contrasenia"].ToString();
+                string rolString = reader["rol"].ToString();
+                if(Enum.TryParse<Roles>(rolString, out var RolEnum)){
+                    user.Rol = RolEnum;
+                }
+                else{
+                    user.Rol = Roles.simple;
+                }
             }
         }
         connection.Close();
@@ -77,6 +96,9 @@ public class UsuarioRepository : IUsuarioRepository{
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@nombre", usuario.NombreUsuario));
             command.Parameters.Add(new SQLiteParameter("@id", id));
+            command.Parameters.Add(new SQLiteParameter("@contrasenia", usuario.Contrasenia));
+            var rolString = Enum.GetName(typeof(Roles), usuario.Rol);
+            command.Parameters.Add(new SQLiteParameter("@rol", rolString));
             command.ExecuteNonQuery();
             connection.Close();
         }

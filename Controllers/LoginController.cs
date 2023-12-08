@@ -10,47 +10,51 @@ using espacioViewModels;
 public class LoginController : Controller{
     List<Login> listaDeTiposDelogins = new List<Login>();
     private readonly ILogger<LoginController> _logger;
-    public LoginController(ILogger<LoginController> logger){
+    private readonly IUsuarioRepository _usuarioRepository;
+    public LoginController(ILogger<LoginController> logger, IUsuarioRepository usuarioRepository){
         _logger = logger;
+        _usuarioRepository = usuarioRepository;
+    }
 
-        Login loginAdmin = new Login();
-        loginAdmin.Nombre = "admin";
-        loginAdmin.Contrasenia = "admin";
-        loginAdmin.Nivel = nivelDeAcceso.admin;
-
-        Login loginSimple = new Login();
-        loginSimple.Nombre = "simple";
-        loginSimple.Contrasenia = "simple";
-        loginSimple.Nivel = nivelDeAcceso.simple;
-
-        Login loginSimple2 = new Login();
-        loginSimple.Nombre = "simple2";
-        loginSimple.Contrasenia = "simple2";
-        loginSimple.Nivel = nivelDeAcceso.simple;
-
-        listaDeTiposDelogins.Add(loginAdmin);
-        listaDeTiposDelogins.Add(loginSimple);
-        listaDeTiposDelogins.Add(loginSimple2);
+    private void CreateSession(Usuario usuarioLogeado){
+        HttpContext.Session.SetString("Usuario", usuarioLogeado.NombreUsuario);
+        HttpContext.Session.SetString("Contrasenia", usuarioLogeado.Contrasenia);
+        HttpContext.Session.SetString("Rol", usuarioLogeado.Rol.ToString());
     }
 
     public IActionResult Index(){
-        LoginViewModel login = new LoginViewModel();
-        return View(login);
+        return View(new LoginViewModel());
     }
 
-    public IActionResult Login(Login login){
-        Login usuarioPorLoguear = null;
-        usuarioPorLoguear = listaDeTiposDelogins.FirstOrDefault(u => u.Nombre == login.Nombre && u.Contrasenia == login.Contrasenia);
-        if (usuarioPorLoguear == null){
-            return RedirectToAction("Index");
+    [HttpPost]
+    public IActionResult LoginUser(LoginViewModel usuarioVM){
+        try{
+            if (!ModelState.IsValid) return RedirectToAction("Index");
+            var usuarios = _usuarioRepository.GetAllUsuarios();
+            var user = usuarios.FirstOrDefault(u => u.NombreUsuario == usuarioVM.Nombre && u.Contrasenia == usuarioVM.Contrasenia);
+            if (user == null){
+                _logger.LogWarning("Intento de acceso invalido - Usuario:" + usuarioVM.Nombre + " Clave ingresada: " + usuarioVM.Contrasenia);
+                return RedirectToAction("Index");
+            }
+
+            _logger.LogInformation("el usuario " + user.NombreUsuario + " ingreso correctamente");
+
+            CreateSession(user);
+
+            return RedirectToRoute(new { controller = "Tablero", action = "Index" });
         }
-        logearUsuario(usuarioPorLoguear);
-        return RedirectToAction("Index", "Usuario");
+        catch (Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest("Fallo el inicio de sesion");
+        }
     }
 
-    private void logearUsuario(Login usuarioPorLoguear){
-        HttpContext.Session.SetString("Nombre", usuarioPorLoguear.Nombre);
-        HttpContext.Session.SetString("Contrasenia", usuarioPorLoguear.Contrasenia);
-        HttpContext.Session.SetString("NivelDeAcceso", Convert.ToString(usuarioPorLoguear.Nivel));
+    public IActionResult LogOut(){
+        HttpContext.Session.Remove("Usuario");
+        HttpContext.Session.Remove("Contrasenia");
+        HttpContext.Session.Remove("Rol");
+        return RedirectToAction("Index", "Login");
     }
+
+    
 }

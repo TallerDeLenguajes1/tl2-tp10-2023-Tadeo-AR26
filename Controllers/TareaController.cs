@@ -8,90 +8,114 @@ using espacioViewModels;
 namespace espacioController;
 
 public class TareaController : Controller{
-    private readonly ILogger<HomeController> _logger;
-    private static List<Tarea> tareas = new List<Tarea>();
-    TareaRepository tareaRepository;
+    private readonly ILogger<TareaController> _logger;
+    private readonly ITareaRepository _tareaRepository;
+    private readonly ITableroRepository _tableroRepository;
+    private readonly IUsuarioRepository _usuarioRepository;
 
-    public TareaController(ILogger<HomeController> logger){
+    public TareaController(ILogger<TareaController> logger, ITareaRepository tareaRepository, IUsuarioRepository usuarioRepository, ITableroRepository tableroRepository){
         _logger = logger;
-        tareaRepository = new TareaRepository();
+        _tareaRepository = tareaRepository;
+        _tableroRepository = tableroRepository;
+        _usuarioRepository = usuarioRepository;
     }
 
 
     public IActionResult Index(int idTablero){
-        List<Tarea> listaTareas = null;
-        if(!isLogin()){
-            return RedirectToAction("Index", "Login");
+        try{
+            if(!isLogin()){
+                return RedirectToAction("Index", "Login");
+            }
+            List<Tarea> tareas = _tareaRepository.GetAllTareasFromTablero(idTablero);
+            return View(tareas);
         }
-        if(isAdmin()){
-            listaTareas = tareaRepository.GetAllTareas();
+        catch (System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
         }
-        //else if(idTablero.HasValue){
-        //    listaTareas = tareaRepository.GetAllTareasFromTablero(idTablero);
-        //}
-        else{
-            return NotFound();
-        }
-
-        List<ListarTareaViewModel> listarTareaVM = ListarTareaViewModel.FromTarea(listaTareas);
-        return View(listarTareaVM);
     }
 
     [HttpGet]
-    public IActionResult AgregarTarea(){ //Si agrego parametros envia un bad request
-        if(!isLogin()){
-            return RedirectToAction("Index", "Login");
+    public IActionResult AgregarTarea(){
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            return View(new AgregarTareaViewModel());
         }
-        AgregarTareaViewModel nuevaTareaVM = new AgregarTareaViewModel();
-        return View(nuevaTareaVM);
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpPost]
     public IActionResult AgregarTareaFromForm([FromForm] AgregarTareaViewModel nuevaTareaVM){
-        if(!ModelState.IsValid){
-            return RedirectToAction("Index");
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!ModelState.IsValid) return RedirectToAction("AgregarTarea");
+            _tareaRepository.CreateTarea(new Tarea(nuevaTareaVM));
+            return RedirectToAction("Index", new { idTablero = nuevaTareaVM.IdTablero });
         }
-        if(!isLogin()){
-            return RedirectToAction("Index", "Login");
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
         }
-
-        Tarea nuevaTarea = Tarea.FromAgregarTareaViewModel(nuevaTareaVM);
-        tareaRepository.UpdateTarea(nuevaTarea);
-        return RedirectToAction("Index");
     }
 
     [HttpGet]
     public IActionResult EditarTarea(int idTarea){  
-        if(!isLogin()){
-            return RedirectToAction("Index", "Login");
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            Tarea tarea = _tareaRepository.GetTareaById(idTarea);
+            if(tarea != null){
+                return View(new EditarTareaViewModel(tarea));
+            }
+            else{
+                return RedirectToAction("Index", new { idTablero = _tareaRepository.GetTareaById(idTarea).Id_tablero });
+            }
         }
-        
-        Tarea tareaAEditar = tareaRepository.GetTareaById(idTarea);
-        EditarTareaViewModel tareaAEditarVM = new EditarTareaViewModel(tareaAEditar);
-        return View(tareaAEditarVM);
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+            
+        }
     }
 
     [HttpPost]
     public IActionResult EditarTareaFromForm([FromForm] EditarTareaViewModel tareaAEditarVM){
-        if(!ModelState.IsValid){
-            return RedirectToAction("Index");
-        } 
-        if(!isLogin()){
-            return RedirectToAction("Index","Login"); 
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!ModelState.IsValid) return RedirectToAction("AgregarTarea");
+            _tareaRepository.UpdateTarea(new Tarea(tareaAEditarVM));
+            return RedirectToAction("Index", new { idTablero = tareaAEditarVM.IdTablero });
         }
-
-        Tarea tareaAEditar = Tarea.FromEditarTareaViewModel(tareaAEditarVM);
-        tareaRepository.UpdateTarea(tareaAEditar);
-        return RedirectToAction("Index");
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     public IActionResult DeleteTarea(int idTarea){
-        tareaRepository.RemoveTarea(idTarea);
-        return RedirectToAction("Index");
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!isAdmin()) return RedirectToAction("Index");
+            Tarea tarea = _tareaRepository.GetTareaById(idTarea);
+            int idT = tarea.Id_tablero;
+            _tareaRepository.RemoveTarea(idTarea);
+            return RedirectToAction("Index", new { idTablero = idT });
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     public IActionResult Privacy(){
         return View();
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error(){
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
     private bool isLogin(){
@@ -100,11 +124,6 @@ public class TareaController : Controller{
 
     private bool isAdmin(){
         return (HttpContext.Session.GetString("NivelDeAcceso") == "admin");
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error(){
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
 }

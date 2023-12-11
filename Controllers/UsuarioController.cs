@@ -43,7 +43,7 @@ public class UsuarioController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             if(!isAdmin()) return RedirectToAction("Index");
-            return View(new AgregarTableroViewModel());
+            return View(new AgregarUsuarioViewModel());
         }
         catch(System.Exception ex){
             _logger.LogError(ex.ToString());

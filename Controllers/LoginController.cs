@@ -19,7 +19,7 @@ public class LoginController : Controller{
     private void CreateSession(Usuario usuarioLogeado){
         HttpContext.Session.SetString("Usuario", usuarioLogeado.NombreUsuario);
         HttpContext.Session.SetString("Contrasenia", usuarioLogeado.Contrasenia);
-        HttpContext.Session.SetString("Rol", usuarioLogeado.Rol.ToString());
+        HttpContext.Session.SetString("NivelDeAcceso", usuarioLogeado.Rol.ToString());
     }
 
     public IActionResult Index(){
@@ -50,11 +50,18 @@ public class LoginController : Controller{
     }
 
     public IActionResult LogOut(){
+    if(HttpContext.Session.GetString("Usuario") != null) {
         HttpContext.Session.Remove("Usuario");
-        HttpContext.Session.Remove("Contrasenia");
-        HttpContext.Session.Remove("Rol");
-        return RedirectToAction("Index", "Login");
     }
+    if(HttpContext.Session.GetString("Contrasenia") != null) {
+        HttpContext.Session.Remove("Contrasenia");
+    }
+    if(HttpContext.Session.GetString("NivelDeAcceso") != null) {
+        HttpContext.Session.Remove("NivelDeAcceso");
+    }
+
+    return RedirectToAction("Index", "Login");
+}
 
     
 }

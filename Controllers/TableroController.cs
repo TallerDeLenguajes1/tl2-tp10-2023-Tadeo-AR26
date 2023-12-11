@@ -8,47 +8,108 @@ using espacioViewModels;
 namespace espacioController;
 
 public class TableroController : Controller{
-    private readonly ILogger<HomeController> _logger;
-    private static List<Tablero> tableros = new List<Tablero>();
-    TableroRepository tableroRepository;
+    private readonly ILogger<TableroController> _logger;
+    private readonly ITableroRepository _tableroRepository;
+    private readonly IUsuarioRepository _usuarioRepository;
 
-    public TableroController(ILogger<HomeController> logger){
+    public TableroController(ILogger<TableroController> logger, IUsuarioRepository usuarioRepository, ITableroRepository tableroRepository){
         _logger = logger;
-        tableroRepository = new TableroRepository();
+        _tableroRepository = tableroRepository;
+        _usuarioRepository = usuarioRepository;
     }
 
-
-    //Muestra Usuarios
     public IActionResult Index(){
-        tableros = tableroRepository.GetAllTableros();
-        return View(tableros);
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(isAdmin()){
+                List<Tablero> tableros = _tableroRepository.GetAllTableros();
+                return View(tableros);
+            }
+            else{
+                Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario") && u.Contrasenia == HttpContext.Session.GetString("Password"));
+                Tablero tablero = _tableroRepository.GetTableroByID(usuario.Id);
+                return View(tablero);
+            }
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpGet]
-    public IActionResult AgregarTablero(){ //Si agrego parametros envia un bad request
-        return View(new Tablero());
+    public IActionResult AgregarTablero(){
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!isAdmin()) return RedirectToAction("Index");
+            return View(new AgregarTableroViewModel());
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpPost]
-    public IActionResult AgregarTableroFromForm([FromForm] Tablero tablero){
-        tableroRepository.CreateTablero(tablero);
-        return RedirectToAction("Index");
+    public IActionResult AgregarTableroFromForm([FromForm] AgregarTableroViewModel nuevoTableroVM){
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!isAdmin()) return RedirectToAction("Index");
+            if(!ModelState.IsValid) return RedirectToAction("AgregarTablero");
+            _tableroRepository.CreateTablero(new Tablero(nuevoTableroVM));
+            return RedirectToAction("Index");
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     [HttpGet]
     public IActionResult EditarTablero(int idTablero){  
-        return View(tableroRepository.GetTableroByID(idTablero));
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            Tablero tablero = _tableroRepository.GetTableroByID(idTablero);
+            if(tablero != null){
+                return View(new EditarTableroViewModel(tablero));
+            }
+            else{
+                return RedirectToAction("Index");
+            }
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+            
+        }
     }
 
     [HttpPost]
-    public IActionResult EditarTableroFromForm([FromForm] Tablero tablero){
-        tableroRepository.UpdateTablero(tablero);
-        return RedirectToAction("Index");
+    public IActionResult EditarTableroFromForm([FromForm] AgregarTableroViewModel tableroAEditarVM){
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!isAdmin()) return RedirectToAction("Index");
+            if(!ModelState.IsValid) return RedirectToAction("EditarTablero");
+            _tableroRepository.UpdateTablero(new Tablero(tableroAEditarVM));
+            return RedirectToAction("Index");
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     public IActionResult DeleteTablero(int idTablero){
-        tableroRepository.RemoveTablero(idTablero);
-        return RedirectToAction("Index");
+        try{
+            if(!isLogin()) return RedirectToAction("Index", "Login");
+            if(!isAdmin()) return RedirectToAction("Index");
+            _tableroRepository.RemoveTablero(idTablero);
+            return RedirectToAction("Index");
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
     }
 
     public IActionResult Privacy(){
@@ -58,6 +119,14 @@ public class TableroController : Controller{
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error(){
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    private bool isLogin(){
+        return HttpContext.Session.GetString("NivelDeAcceso") == "admin" || HttpContext.Session.GetString("NivelDeAcceso") == "simple";
+    }
+
+    private bool isAdmin(){
+        return (HttpContext.Session.GetString("NivelDeAcceso") == "admin");
     }
 
 }

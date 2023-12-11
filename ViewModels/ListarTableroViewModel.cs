@@ -24,17 +24,21 @@ public class ListarTableroViewModel{
     [Display(Name = "Descripcion")] 
     public string Descripcion { get => descripcion; set => descripcion = value; }
 
+    public ListarTableroViewModel(){}
 
-    public static List<ListarTableroViewModel> FromTablero(List<Tablero> tableros) {
-        List<ListarTableroViewModel> ListarTableroVM = new List<ListarTableroViewModel>();
-            foreach (var tablero in tableros){
-                ListarTableroViewModel newTVM = new ListarTableroViewModel();
-                newTVM.id = tablero.Id;
-                newTVM.idUsuarioPropietario = tablero.IdUsuarioPropietario;
-                newTVM.nombre = tablero.Nombre;
-                newTVM.Descripcion = tablero.Descripcion;
-                ListarTableroVM.Add(newTVM);
-            }
-            return(ListarTableroVM);
+    public ListarTableroViewModel(Tablero tablero){
+        id = tablero.Id;
+        idUsuarioPropietario = tablero.IdUsuarioPropietario;
+        nombre = tablero.Nombre;
+        descripcion = tablero.Descripcion;
+    }
+
+    public ListarTableroViewModel(List<Tablero> tableros) {
+        foreach (var tablero in tableros){
+            id = tablero.Id;
+            idUsuarioPropietario = tablero.IdUsuarioPropietario;
+            nombre = tablero.Nombre;
+            descripcion = tablero.Descripcion;
+        }
     }
 }

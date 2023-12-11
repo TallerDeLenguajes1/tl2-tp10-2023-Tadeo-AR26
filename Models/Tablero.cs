@@ -13,21 +13,19 @@ public class Tablero{
     public string Descripcion { get => descripcion; set => descripcion = value; }
 
     
-    public static Tablero FromAgregarUsuarioViewModel(AgregarTableroViewModel tableroVM){
-        return new Tablero{
-            id = tableroVM.Id,
-            idUsuarioPropietario = tableroVM.IdUsuarioPropietario,
-            nombre = tableroVM.Nombre,
-            descripcion = tableroVM.Descripcion,
-        };
+    public Tablero(){}
+
+    public Tablero(AgregarTableroViewModel tableroVM){
+            id = tableroVM.Id;
+            idUsuarioPropietario = tableroVM.IdUsuarioPropietario;
+            nombre = tableroVM.Nombre;
+            descripcion = tableroVM.Descripcion;
     }
 
-    public static Tablero FromEditarUsuarioViewModel(EditarTableroViewModel tableroVM){
-        return new Tablero{
-            id = tableroVM.Id,
-            idUsuarioPropietario = tableroVM.IdUsuarioPropietario,
-            nombre = tableroVM.Nombre,
-            descripcion = tableroVM.Descripcion,
-        };
-    }
+    public Tablero(EditarTableroViewModel tableroVM){
+            id = tableroVM.Id;
+            idUsuarioPropietario = tableroVM.IdUsuarioPropietario;
+            nombre = tableroVM.Nombre;
+            descripcion = tableroVM.Descripcion;
+        }
 }

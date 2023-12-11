@@ -26,28 +26,27 @@ public class Tarea{
     public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
 
 
-    public static Tarea FromEditarTareaViewModel(EditarTareaViewModel tareaVM)
-    {
-        return new Tarea{
-            id = tareaVM.Id,
-            id_tablero = tareaVM.IdTablero,
-            nombre = tareaVM.Nombre,
-            descripcion = tareaVM.Descripcion,
-            color = tareaVM.Color,
-            estado = (estadoTarea)tareaVM.Estado,
-            idUsuarioAsignado = tareaVM.IdUsuarioAsignado,
-        };
+    public Tarea(){
+
+    }
+    
+    public Tarea(EditarTareaViewModel tareaVM){
+        id = tareaVM.Id;
+        id_tablero = tareaVM.IdTablero;
+        nombre = tareaVM.Nombre;
+        descripcion = tareaVM.Descripcion;
+        color = tareaVM.Color;
+        estado = (estadoTarea)tareaVM.Estado;
+        idUsuarioAsignado = tareaVM.IdUsuarioAsignado;
     }
 
-    public static Tarea FromAgregarTareaViewModel(AgregarTareaViewModel tareaVM){
-        return new Tarea{
-            id = tareaVM.Id,
-            id_tablero = tareaVM.IdTablero,
-            nombre = tareaVM.Nombre,
-            descripcion = tareaVM.Descripcion,
-            color = tareaVM.Color,
-            estado = (estadoTarea)tareaVM.Estado,
-            idUsuarioAsignado = tareaVM.IdUsuarioAsignado,
-        };
+    public Tarea (AgregarTareaViewModel tareaVM){
+        id = tareaVM.Id;
+        id_tablero = tareaVM.IdTablero;
+        nombre = tareaVM.Nombre;
+        descripcion = tareaVM.Descripcion;
+        color = tareaVM.Color;
+        estado = (estadoTarea)tareaVM.Estado;
+        idUsuarioAsignado = tareaVM.IdUsuarioAsignado;
     }
 }

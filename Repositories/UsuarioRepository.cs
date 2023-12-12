@@ -12,8 +12,7 @@ public class UsuarioRepository : IUsuarioRepository{
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@nombre", usuario.NombreUsuario));
             command.Parameters.Add(new SQLiteParameter("@contrasenia", usuario.Contrasenia));
-            var rolString = Enum.GetName(typeof(Roles), usuario.Rol);
-            command.Parameters.Add(new SQLiteParameter("@rol", rolString));
+            command.Parameters.Add(new SQLiteParameter("@rol", Convert.ToInt32(usuario.Rol)));
             command.ExecuteNonQuery();
             connection.Close();
         }
@@ -33,8 +32,7 @@ public class UsuarioRepository : IUsuarioRepository{
                     user.Id = Convert.ToInt32(reader["id_usuario"]);
                     user.NombreUsuario = reader["nombre_de_usuario"].ToString();
                     user.Contrasenia = reader["contrasenia"].ToString();
-                    user.Rol = (Roles)(int.TryParse(reader["rol"].ToString(), out var i) ? i : 0);
-                    Console.WriteLine($"{user.Rol}");
+                    user.Rol = (Roles)Convert.ToInt32(reader["rol"]);
                     usuarios.Add(user);
                 }
             }
@@ -56,13 +54,7 @@ public class UsuarioRepository : IUsuarioRepository{
                 user.Id = Convert.ToInt32(reader["id_usuario"]);
                 user.NombreUsuario = reader["nombre_de_usuario"].ToString();
                 user.Contrasenia = reader["contrasenia"].ToString();
-                string rolString = reader["rol"].ToString();
-                if(Enum.TryParse<Roles>(rolString, out var RolEnum)){
-                    user.Rol = RolEnum;
-                }
-                else{
-                    user.Rol = Roles.simple;
-                }
+                user.Rol = (Roles)Convert.ToInt32(reader["rol"]);
             }
         }
         connection.Close();
@@ -84,16 +76,14 @@ public class UsuarioRepository : IUsuarioRepository{
     }
 
     public Usuario UpdateUsuario(Usuario usuario){
-        int id = usuario.Id;
         var queryString = @"UPDATE usuario SET nombre_de_usuario = @nombre WHERE id_usuario = @id;";
         using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@nombre", usuario.NombreUsuario));
-            command.Parameters.Add(new SQLiteParameter("@id", id));
+            command.Parameters.Add(new SQLiteParameter("@id", usuario.Id));
             command.Parameters.Add(new SQLiteParameter("@contrasenia", usuario.Contrasenia));
-            var rolString = Enum.GetName(typeof(Roles), usuario.Rol);
-            command.Parameters.Add(new SQLiteParameter("@rol", rolString));
+            command.Parameters.Add(new SQLiteParameter("@rol", Convert.ToInt32(usuario.Rol)));
             command.ExecuteNonQuery();
             connection.Close();
         }

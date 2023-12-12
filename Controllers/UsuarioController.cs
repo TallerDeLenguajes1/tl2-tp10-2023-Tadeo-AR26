@@ -57,6 +57,8 @@ public class UsuarioController : Controller{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             if(!isAdmin()) return RedirectToAction("Index");
             if(!ModelState.IsValid) return RedirectToAction("AgregarUsuario");
+            Console.WriteLine($"{nuevoUsuarioVM.Nombre}");
+            Console.WriteLine($"{nuevoUsuarioVM.Contrasenia}");
             _usuarioRepository.CreateUsuario(new Usuario(nuevoUsuarioVM));
             return RedirectToAction("Index");
         }

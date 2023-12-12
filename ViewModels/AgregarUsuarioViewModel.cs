@@ -13,7 +13,7 @@ public class AgregarUsuarioViewModel{
     private string contrasenia;
     [Required(ErrorMessage = "Campo requerido")]
     [Display(Name = "Contraseña")]
-    public string Contrasenia { get => nombreUsuario; set => nombreUsuario = value; }
+    public string Contrasenia { get => contrasenia; set => contrasenia = value; }
 
     private Roles rol;
     [Required(ErrorMessage = "Campo requerido")]

@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
 
+var cadenaConexion = builder.Configuration.GetConnectionString("SqliteConexion")!.ToString();//el signo de exclamacion es para decir que no es null
+builder.Services.AddSingleton<string>(cadenaConexion);
+
 builder.Services.AddScoped<ITareaRepository, TareaRepository>();
 builder.Services.AddScoped<ITableroRepository, TableroRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();

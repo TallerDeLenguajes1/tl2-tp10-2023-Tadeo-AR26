@@ -3,12 +3,16 @@ using espacioKanban;
 namespace espacioRepositories;
 
 public class TableroRepository : ITableroRepository{
-    private string cadenaConexion = "Data source=DB/kanban.db;Cache=Shared";
+    private readonly string _cadenaConexion;
+
+    public TableroRepository(string cadenaConexion){
+        _cadenaConexion = cadenaConexion;
+    }
 
     public Tablero CreateTablero(Tablero tablero){
         var queryString = @"INSERT INTO tablero (id_usuario_propietario, nombre, descripcion)
         VALUES(@id_user, @nombre, @descripcion);";
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@id_user", tablero.IdUsuarioPropietario));
@@ -23,7 +27,7 @@ public class TableroRepository : ITableroRepository{
     public List<Tablero> GetAllTableros(){
         var queryString = @"SELECT * FROM tablero";
         var listaTableros = new List<Tablero>();
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             SQLiteCommand command = new SQLiteCommand(queryString, connection);
             connection.Open();
             using(SQLiteDataReader reader = command.ExecuteReader()){
@@ -44,7 +48,7 @@ public class TableroRepository : ITableroRepository{
     public List<Tablero> GetAllTablerosFromUser(int idUsuario){
         var queryString = @"SELECT * FROM tablero WHERE id_usuario_propietario = @idUser;";
         var listaTableros = new List<Tablero>();
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             SQLiteCommand command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@idUser", idUsuario));
@@ -66,7 +70,7 @@ public class TableroRepository : ITableroRepository{
     public Tablero GetTableroByID(int id){
         var queryString = @"SELECT * FROM tablero WHERE id_tablero = @idTablero;";
         var tablero = new Tablero();
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             SQLiteCommand command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@idTablero", id));
@@ -86,7 +90,7 @@ public class TableroRepository : ITableroRepository{
     public bool RemoveTablero(int id){
         var result = false;
         var queryString = @"DELETE FROM tablero WHERE id_tablero = @id;";
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@id", id));
@@ -102,7 +106,7 @@ public class TableroRepository : ITableroRepository{
         var queryString = @"UPDATE tablero
         SET id_usuario_propietario = @id, nombre = @nombre, descripcion = @descripcion
         WHERE id_tablero = @id_tablero;";
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@id", tablero.IdUsuarioPropietario));

@@ -3,12 +3,15 @@ using espacioKanban;
 namespace espacioRepositories;
 
 public class TareaRepository : ITareaRepository{
-    private string cadenaConexion = "Data source=DB/kanban.db;Cache=Shared";
+    private readonly string _cadenaConexion;
 
+    public TareaRepository(string cadenaConexion){
+        _cadenaConexion = cadenaConexion;
+    }
     public Tarea CreateTarea(Tarea tarea){
         var queryString = @"INSERT INTO tarea (id_tablero, nombre, estado, descripcion, color, id_usuario_asignado)
         VALUES(@id_tablero, @nombre, @estado, @descripcion, @color, @idUser);";
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@idUser", tarea.IdUsuarioAsignado));
@@ -26,7 +29,7 @@ public class TareaRepository : ITareaRepository{
     public List<Tarea> GetAllTareasFromTablero(int id){
         var queryString = @"SELECT * FROM tarea WHERE id_tablero = @idTablero;";
         var listaTareas = new List<Tarea>();
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             SQLiteCommand command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@idTablero", id));
@@ -56,7 +59,7 @@ public class TareaRepository : ITareaRepository{
     public List<Tarea> GetAllTareas(){
         var queryString = @"SELECT * FROM tarea;";
         var listaTareas = new List<Tarea>();
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             SQLiteCommand command = new SQLiteCommand(queryString, connection);
             connection.Open();
             using(SQLiteDataReader reader = command.ExecuteReader()){
@@ -85,7 +88,7 @@ public class TareaRepository : ITareaRepository{
     public List<Tarea> GetAllTareasFromUser(int id){
         var queryString = @"SELECT * FROM tarea WHERE id_usuario_asignado = @idUser;";
         var listaTareas = new List<Tarea>();
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             SQLiteCommand command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@idUser", id));
@@ -115,7 +118,7 @@ public class TareaRepository : ITareaRepository{
     public Tarea GetTareaById(int id){
         var queryString = @"SELECT * FROM tarea WHERE id_tarea = @idTarea;";
         var tarea = new Tarea();
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             SQLiteCommand command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@idTarea", id));
@@ -143,7 +146,7 @@ public class TareaRepository : ITareaRepository{
     public bool RemoveTarea(int id){
         var result = false;
         var queryString = @"DELETE FROM tarea WHERE id_tarea = @id;";
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@id", id));
@@ -158,7 +161,7 @@ public class TareaRepository : ITareaRepository{
         var queryString = @"SELECT * FROM tarea
         WHERE estado = @estado;";
         var listaTareas = new List<Tarea>();
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             SQLiteCommand command = new SQLiteCommand(queryString, connection);
             connection.Open();
             using(SQLiteDataReader reader = command.ExecuteReader()){
@@ -188,7 +191,7 @@ public class TareaRepository : ITareaRepository{
         var queryString = @"UPDATE tarea SET id_tablero = @idTablero, nombre = @nombre,
         estado = @estado, descripcion = @descripcion, color = @color, id_usuario_asignado = @idUser
         WHERE id_tarea = @id;";
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@id", tarea.Id));

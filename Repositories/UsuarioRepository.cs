@@ -3,11 +3,15 @@ using espacioKanban;
 namespace espacioRepositories;
 
 public class UsuarioRepository : IUsuarioRepository{
-    private string cadenaConexion = "Data source=DB/kanban.db;Cache=Shared";
+    private readonly string _cadenaConexion;
+
+    public UsuarioRepository(string cadenaConexion){
+        _cadenaConexion = cadenaConexion;
+    }
 
     public Usuario CreateUsuario(Usuario usuario){
         var queryString = @"Insert INTO usuario (nombre_de_usuario, contrasenia, rol) VALUES(@nombre, @contrasenia, @rol);";
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@nombre", usuario.NombreUsuario));
@@ -23,7 +27,7 @@ public class UsuarioRepository : IUsuarioRepository{
         var queryString = @"SELECT * FROM usuario;";
         List<Usuario> usuarios = new List<Usuario>();
 
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             using(SQLiteDataReader reader = command.ExecuteReader()){
@@ -42,7 +46,7 @@ public class UsuarioRepository : IUsuarioRepository{
     }
 
     public Usuario GetUsuarioByID(int id){
-        SQLiteConnection connection = new SQLiteConnection(cadenaConexion);
+        SQLiteConnection connection = new SQLiteConnection(_cadenaConexion);
         var user = new Usuario();
         var command = connection.CreateCommand();
         command.CommandText = "SELECT * FROM usuario WHERE id_usuario = @id;";
@@ -64,7 +68,7 @@ public class UsuarioRepository : IUsuarioRepository{
     public bool RemoveUsuario(int id){
         bool result = false;
         var queryString = @"DELETE FROM usuario WHERE id_usuario = @id;";
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@id", id));
@@ -77,7 +81,7 @@ public class UsuarioRepository : IUsuarioRepository{
 
     public Usuario UpdateUsuario(Usuario usuario){
         var queryString = @"UPDATE usuario SET nombre_de_usuario = @nombre WHERE id_usuario = @id;";
-        using(SQLiteConnection connection = new SQLiteConnection(cadenaConexion)){
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             var command = new SQLiteCommand(queryString, connection);
             connection.Open();
             command.Parameters.Add(new SQLiteParameter("@nombre", usuario.NombreUsuario));

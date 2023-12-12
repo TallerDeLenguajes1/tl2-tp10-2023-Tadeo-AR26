@@ -85,11 +85,14 @@ public class TableroController : Controller{
     }
 
     [HttpPost]
-    public IActionResult EditarTableroFromForm([FromForm] AgregarTableroViewModel tableroAEditarVM){
+    public IActionResult EditarTableroFromForm([FromForm] EditarTableroViewModel tableroAEditarVM){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
+            Console.WriteLine("Test de Login");
             if(!isAdmin()) return RedirectToAction("Index");
+            Console.WriteLine("Test de Admin");
             if(!ModelState.IsValid) return RedirectToAction("EditarTablero");
+            Console.WriteLine("Test de ModelValid");
             _tableroRepository.UpdateTablero(new Tablero(tableroAEditarVM));
             return RedirectToAction("Index");
         }

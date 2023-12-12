@@ -2,17 +2,25 @@
     ViewData["Title"] = "Agregar Usuario";
 }
 
-@model espacioViewModels.EditarUsuarioViewModel
+@model espacioViewModels.AgregarUsuarioViewModel
 
 <h1>@ViewData["Title"]</h1>
 <form asp-controller="Usuario" asp-action="AgregarUsuarioFromForm" method="post">
     <div class="form-group">
-        <label asp-for="@Model.Id"></label>
-        <input asp-for="@Model.Id" class="form-control" id="id" />
+        <label asp-for="@Model.Nombre"></label>
+        <input asp-for="@Model.Nombre" class="form-control" id="nombre" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Contrasenia"></label>
+        <input asp-for="@Model.Contrasenia" class="form-control" id="contrasenia" />
     </div>
     <div class="form-group">
         <label asp-for="@Model.Nombre"></label>
         <input asp-for="@Model.Nombre" class="form-control" id="nombre" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Rol"></label>
+        <input asp-for="@Model.Rol" class="form-control" id="rol" />
     </div>
     <button type="submit" class="btn btn-primary" >Enviar</button>
 </form>

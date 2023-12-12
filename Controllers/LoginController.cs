@@ -38,7 +38,6 @@ public class LoginController : Controller{
             }
 
             _logger.LogInformation("el usuario " + user.NombreUsuario + " ingreso correctamente");
-
             CreateSession(user);
 
             return RedirectToRoute(new { controller = "Tablero", action = "Index" });

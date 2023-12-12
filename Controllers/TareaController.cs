@@ -26,8 +26,18 @@ public class TareaController : Controller{
             if(!isLogin()){
                 return RedirectToAction("Index", "Login");
             }
-            List<Tarea> tareas = _tareaRepository.GetAllTareasFromTablero(idTablero);
-            return View(tareas);
+            if(isAdmin()){
+                List<Tarea> tareas = _tareaRepository.GetAllTareas();
+                return View(tareas);
+            }
+            else{
+                Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario") && u.Contrasenia == HttpContext.Session.GetString("Password"));
+                Console.WriteLine($"{usuario.Id}");
+                List<Tablero> tablero = _tableroRepository.GetAllTablerosFromUser(usuario.Id);
+                Console.WriteLine($"{tablero[0].Id}");
+                List<Tarea> tareas = _tareaRepository.GetAllTareasFromTablero(tablero[0].Id);
+                return View(tareas);
+            }
         }
         catch (System.Exception ex){
             _logger.LogError(ex.ToString());

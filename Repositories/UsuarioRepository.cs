@@ -32,14 +32,9 @@ public class UsuarioRepository : IUsuarioRepository{
                     var user = new Usuario();
                     user.Id = Convert.ToInt32(reader["id_usuario"]);
                     user.NombreUsuario = reader["nombre_de_usuario"].ToString();
-                    string rolString = reader["rol"].ToString();
                     user.Contrasenia = reader["contrasenia"].ToString();
-                    if(Enum.TryParse<Roles>(rolString, out var RolEnum)){
-                        user.Rol = RolEnum;
-                    }
-                    else{
-                        user.Rol = Roles.simple;
-                    }
+                    user.Rol = (Roles)(int.TryParse(reader["rol"].ToString(), out var i) ? i : 0);
+                    Console.WriteLine($"{user.Rol}");
                     usuarios.Add(user);
                 }
             }

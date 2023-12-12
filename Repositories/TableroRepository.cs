@@ -97,7 +97,8 @@ public class TableroRepository : ITableroRepository{
         return result;
     }
 
-    public Tablero UpdateTablero(Tablero tablero){
+    public void UpdateTablero(Tablero tablero){
+        Console.WriteLine($"Id del tablero a editar: {tablero.Id}");
         var queryString = @"UPDATE tablero
         SET id_usuario_propietario = @id, nombre = @nombre, descripcion = @descripcion
         WHERE id_tablero = @id_tablero;";
@@ -108,9 +109,9 @@ public class TableroRepository : ITableroRepository{
             command.Parameters.Add(new SQLiteParameter("@nombre", tablero.Nombre));
             command.Parameters.Add(new SQLiteParameter("@descripcion", tablero.Descripcion));
             command.Parameters.Add(new SQLiteParameter("@id_tablero", tablero.Id));
+            command.ExecuteNonQuery();
             connection.Close();
         }
-        return tablero;
     }
 
 }

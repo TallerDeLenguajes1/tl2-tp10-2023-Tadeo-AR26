@@ -90,7 +90,7 @@ public class UsuarioController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             if(!isAdmin()) return RedirectToAction("Index");
-            if(!ModelState.IsValid) return RedirectToAction("AgregarUsuario");
+            if(!ModelState.IsValid) return RedirectToAction("EditarUsuario");
             _usuarioRepository.UpdateUsuario(new Usuario(usuarioAEditarVM));
             return RedirectToAction("Index");
         }

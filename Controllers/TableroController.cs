@@ -26,9 +26,17 @@ public class TableroController : Controller{
                 return View(tableros);
             }
             else{
-                Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario") && u.Contrasenia == HttpContext.Session.GetString("Password"));
+                Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario") && u.Contrasenia == HttpContext.Session.GetString("Contrasenia"));
+                Console.WriteLine($"{usuario.NombreUsuario}");
                 Tablero tablero = _tableroRepository.GetTableroByID(usuario.Id);
-                return View(tablero);
+                if(tablero != null){
+                    List<Tablero> tableros = new List<Tablero>();
+                    tableros.Add(tablero);
+                    return View(tableros);
+                }
+                else{
+                    throw new Exception("Este usuario no posee tableros");
+                }
             }
         }
         catch(System.Exception ex){

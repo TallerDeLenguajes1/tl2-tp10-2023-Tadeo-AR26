@@ -18,6 +18,38 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav mr-auto">
+                        @if(string.IsNullOrEmpty(Context.Session.GetString("Usuario"))){
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                            </li>    
+                        }
+                        else{
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tarea" asp-action="Index"> Mis Tareas</a>                            
+                            </li>
+                            <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="Index">Mis Tablero</a>                            
+                            </li>   
+                            @if (Context.Session.GetString("NivelDeAcceso") == "admin"){
+                                <li class="nav-item">
+                                    <a  class="nav-link text-dark" asp-area="" asp-controller="Tablero" asp-action="GestionarTableros">Gestionar Tableros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a  class="nav-link text-dark" asp-area="" asp-controller="Tarea" asp-action="GestionarTareas">Gestionar Tareas</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Usuario" asp-action="Index">Gestionar Usuarios</a>                            
+                                </li>
+                            } 
+                        }
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>

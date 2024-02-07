@@ -26,20 +26,29 @@ public class TareaController : Controller{
             if(!isLogin()){
                 return RedirectToAction("Index", "Login");
             }
-            if(isAdmin()){
-                List<Tarea> tareas = _tareaRepository.GetAllTareas();
-                return View(tareas);
-            }
-            else{
-                Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario") && u.Contrasenia == HttpContext.Session.GetString("Password"));
-                Console.WriteLine($"{usuario.Id}");
-                List<Tablero> tablero = _tableroRepository.GetAllTablerosFromUser(usuario.Id);
-                Console.WriteLine($"{tablero[0].Id}");
-                List<Tarea> tareas = _tareaRepository.GetAllTareasFromTablero(tablero[0].Id);
-                return View(tareas);
-            }
+            int id = getId();
+            List<Tarea> tareas = _tareaRepository.GetAllTareasFromUser(id);
+            return View(tareas);
         }
         catch (System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
+    }
+
+    [HttpGet]
+    public IActionResult GestionarTareas(){
+        try{
+            if(!isLogin()){
+                return RedirectToAction("Index", "Login");
+            }
+            if(!isAdmin()){
+                return RedirectToAction("Index");
+            }
+            List<Tarea> tareas = _tareaRepository.GetAllTareas();
+            return View("Index", tareas); // Usando "Index", tareas utilizo la View del indice con todas las tareas en lugar de sólo las tareas del usuario
+        }
+        catch(System.Exception ex){
             _logger.LogError(ex.ToString());
             return BadRequest();
         }
@@ -76,6 +85,7 @@ public class TareaController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             Tarea tarea = _tareaRepository.GetTareaById(idTarea);
+            Console.WriteLine($"{tarea.Id}");
             if(tarea != null){
                 return View(new EditarTareaViewModel(tarea));
             }
@@ -94,7 +104,8 @@ public class TareaController : Controller{
     public IActionResult EditarTareaFromForm([FromForm] EditarTareaViewModel tareaAEditarVM){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            if(!ModelState.IsValid) return RedirectToAction("AgregarTarea");
+            if(!ModelState.IsValid) return RedirectToAction("Index");
+            Console.WriteLine("test de Model valid");
             _tareaRepository.UpdateTarea(new Tarea(tareaAEditarVM));
             return RedirectToAction("Index", new { idTablero = tareaAEditarVM.IdTablero });
         }
@@ -134,6 +145,11 @@ public class TareaController : Controller{
 
     private bool isAdmin(){
         return (HttpContext.Session.GetString("NivelDeAcceso") == "admin");
+    }
+
+    private int getId(){
+        Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario"));
+        return usuario.Id;
     }
 
 }

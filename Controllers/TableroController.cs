@@ -21,23 +21,33 @@ public class TableroController : Controller{
     public IActionResult Index(){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            if(isAdmin()){
-                List<Tablero> tableros = _tableroRepository.GetAllTableros();
+            int id = getId();
+            List<Tablero> tableros = _tableroRepository.GetAllTablerosFromUser(id);
+            if(tableros != null){
                 return View(tableros);
             }
             else{
-                Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario") && u.Contrasenia == HttpContext.Session.GetString("Contrasenia"));
-                Console.WriteLine($"{usuario.NombreUsuario}");
-                Tablero tablero = _tableroRepository.GetTableroByID(usuario.Id);
-                if(tablero != null){
-                    List<Tablero> tableros = new List<Tablero>();
-                    tableros.Add(tablero);
-                    return View(tableros);
-                }
-                else{
-                    throw new Exception("Este usuario no posee tableros");
-                }
+                throw new Exception("Este usuario no posee tableros");
             }
+            
+        }
+        catch(System.Exception ex){
+            _logger.LogError(ex.ToString());
+            return BadRequest();
+        }
+    }
+
+    [HttpGet]
+    public IActionResult GestionarTableros(){
+        try{
+            if(!isLogin()){
+                return RedirectToAction("Index", "Login");
+            }
+            if(!isAdmin()){
+                return RedirectToAction("Index");
+            }
+            List<Tablero> tableros = _tableroRepository.GetAllTableros();
+            return View("Index", tableros); // Usando "Index", tableros utilizo la View del indice con todos los tableros en lugar de sólo los tableros del usuario
         }
         catch(System.Exception ex){
             _logger.LogError(ex.ToString());
@@ -49,7 +59,6 @@ public class TableroController : Controller{
     public IActionResult AgregarTablero(){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            if(!isAdmin()) return RedirectToAction("Index");
             return View(new AgregarTableroViewModel());
         }
         catch(System.Exception ex){
@@ -62,7 +71,6 @@ public class TableroController : Controller{
     public IActionResult AgregarTableroFromForm([FromForm] AgregarTableroViewModel nuevoTableroVM){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            if(!isAdmin()) return RedirectToAction("Index");
             if(!ModelState.IsValid) return RedirectToAction("AgregarTablero");
             _tableroRepository.CreateTablero(new Tablero(nuevoTableroVM));
             return RedirectToAction("Index");
@@ -97,8 +105,6 @@ public class TableroController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             Console.WriteLine("Test de Login");
-            if(!isAdmin()) return RedirectToAction("Index");
-            Console.WriteLine("Test de Admin");
             if(!ModelState.IsValid) return RedirectToAction("EditarTablero");
             Console.WriteLine("Test de ModelValid");
             _tableroRepository.UpdateTablero(new Tablero(tableroAEditarVM));
@@ -138,6 +144,11 @@ public class TableroController : Controller{
 
     private bool isAdmin(){
         return (HttpContext.Session.GetString("NivelDeAcceso") == "admin");
+    }
+
+    private int getId(){
+        Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario"));
+        return usuario.Id;
     }
 
 }

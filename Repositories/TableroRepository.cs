@@ -31,8 +31,8 @@ public class TableroRepository : ITableroRepository{
             SQLiteCommand command = new SQLiteCommand(queryString, connection);
             connection.Open();
             using(SQLiteDataReader reader = command.ExecuteReader()){
-                var tablero = new Tablero();
                 while(reader.Read()){
+                    var tablero = new Tablero();
                     tablero.Id = Convert.ToInt32(reader["id_tablero"]);
                     tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
                     tablero.Nombre = reader["nombre"].ToString();
@@ -44,6 +44,7 @@ public class TableroRepository : ITableroRepository{
         }
         return listaTableros;
     }
+
 
     public List<Tablero> GetAllTablerosFromUser(int idUsuario){
         var queryString = @"SELECT * FROM tablero WHERE id_usuario_propietario = @idUser;";

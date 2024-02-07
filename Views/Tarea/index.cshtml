@@ -22,7 +22,7 @@
     <tbody>
         @foreach (var tarea in Model)
         {
-            <tr>
+            <tr style="background-color: #@tarea.Color;">
                 <td hidden>@tarea.Id</td>
                 <td>@tarea.Id_tablero</td>
                 <td>@tarea.Nombre</td>

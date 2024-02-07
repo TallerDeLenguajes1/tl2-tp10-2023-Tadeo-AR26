@@ -16,6 +16,7 @@ public class LoginController : Controller{
         _usuarioRepository = usuarioRepository;
     }
 
+    // Función que crea la sesión
     private void CreateSession(Usuario usuarioLogeado){
         HttpContext.Session.SetString("Usuario", usuarioLogeado.NombreUsuario);
         HttpContext.Session.SetString("Contrasenia", usuarioLogeado.Contrasenia);

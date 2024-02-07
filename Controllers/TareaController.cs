@@ -105,7 +105,6 @@ public class TareaController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             if(!ModelState.IsValid) return RedirectToAction("Index");
-            Console.WriteLine("test de Model valid");
             _tareaRepository.UpdateTarea(new Tarea(tareaAEditarVM));
             return RedirectToAction("Index", new { idTablero = tareaAEditarVM.IdTablero });
         }

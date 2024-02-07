@@ -9,7 +9,7 @@ builder.Services.AddDistributedMemoryCache();
 var cadenaConexion = builder.Configuration.GetConnectionString("SqliteConexion")!.ToString();//el signo de exclamacion es para decir que no es null
 builder.Services.AddSingleton<string>(cadenaConexion);
 
-builder.Services.AddScoped<ITareaRepository, TareaRepository>();
+builder.Services.AddScoped<ITareaRepository, TareaRepository>(); // Añade las interfaces al scope para poder ser inyectadas en otra clase
 builder.Services.AddScoped<ITableroRepository, TableroRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 

@@ -16,7 +16,7 @@ public class LoginController : Controller{
         _usuarioRepository = usuarioRepository;
     }
 
-    // Función que crea la sesión
+    // Función que crea la sesión, se llama en el LoginUser
     private void CreateSession(Usuario usuarioLogeado){
         HttpContext.Session.SetString("Usuario", usuarioLogeado.NombreUsuario);
         HttpContext.Session.SetString("Contrasenia", usuarioLogeado.Contrasenia);
@@ -39,7 +39,7 @@ public class LoginController : Controller{
             }
 
             _logger.LogInformation("el usuario " + user.NombreUsuario + " ingreso correctamente");
-            CreateSession(user);
+            CreateSession(user); //Invoca a la función para crear la sesión
 
             return RedirectToRoute(new { controller = "Tablero", action = "Index" });
         }

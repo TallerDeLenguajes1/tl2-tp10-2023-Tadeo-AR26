@@ -104,9 +104,7 @@ public class TableroController : Controller{
     public IActionResult EditarTableroFromForm([FromForm] EditarTableroViewModel tableroAEditarVM){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            Console.WriteLine("Test de Login");
             if(!ModelState.IsValid) return RedirectToAction("EditarTablero");
-            Console.WriteLine("Test de ModelValid");
             _tableroRepository.UpdateTablero(new Tablero(tableroAEditarVM));
             return RedirectToAction("Index");
         }
@@ -138,15 +136,15 @@ public class TableroController : Controller{
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    private bool isLogin(){
+    private bool isLogin(){ //Funcion que controla que exista una sesión
         return HttpContext.Session.GetString("NivelDeAcceso") == "admin" || HttpContext.Session.GetString("NivelDeAcceso") == "simple";
     }
 
-    private bool isAdmin(){
+    private bool isAdmin(){ //Función que controla que el usuario sea del tipo administrador
         return (HttpContext.Session.GetString("NivelDeAcceso") == "admin");
     }
 
-    private int getId(){
+    private int getId(){ //Funcion que devuelve el ID del usuario que se encuentra logeado
         Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario"));
         return usuario.Id;
     }

@@ -41,14 +41,13 @@ public class EditarTareaViewModel{
 
     public EditarTareaViewModel(){}
 
-    public EditarTareaViewModel (Tarea newTarea){
-        EditarTareaViewModel newTVM = new EditarTareaViewModel();
-        newTVM.id = newTarea.Id;
-        newTVM.idTablero = newTarea.Id_tablero;
-        newTVM.nombre = newTarea.Nombre;
-        newTVM.estado = (espacioViewModels.estadoTarea)newTarea.Estado;
-        newTVM.descripcion = newTarea.Descripcion;
-        newTVM.color = newTarea.Color;
-        newTVM.idUsuarioAsignado = newTarea.IdUsuarioAsignado;
+    public EditarTareaViewModel (Tarea tarea){
+        id = tarea.Id;
+        idTablero = tarea.Id_tablero;
+        nombre = tarea.Nombre;
+        estado = (espacioViewModels.estadoTarea)tarea.Estado;
+        descripcion = tarea.Descripcion;
+        color = tarea.Color;
+        idUsuarioAsignado = tarea.IdUsuarioAsignado;
     }
 }

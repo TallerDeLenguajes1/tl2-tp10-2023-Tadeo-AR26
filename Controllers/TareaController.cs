@@ -85,7 +85,6 @@ public class TareaController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             Tarea tarea = _tareaRepository.GetTareaById(idTarea);
-            Console.WriteLine($"{tarea.Id}");
             if(tarea != null){
                 return View(new EditarTareaViewModel(tarea));
             }

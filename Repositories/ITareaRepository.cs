@@ -11,4 +11,5 @@ public interface ITareaRepository{
     public List<Tarea> GetAllTareasFromTablero(int id);
     public bool AssingTask(int idUsuario, int idTarea);
     public int cantidadDeTareasEnEstado(estadoTarea estado);
+    public void SetNullFromUser(int idUsuario);
 }

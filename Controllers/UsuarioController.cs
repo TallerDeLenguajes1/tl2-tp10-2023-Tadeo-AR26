@@ -8,12 +8,16 @@ using espacioViewModels;
 namespace espacioController;
 
 public class UsuarioController : Controller{
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<TareaController> _logger;
+    private readonly ITareaRepository _tareaRepository;
+    private readonly ITableroRepository _tableroRepository;
     private readonly IUsuarioRepository _usuarioRepository;
     private static List<Usuario> usuarios = new List<Usuario>();
 
-    public UsuarioController(ILogger<HomeController> logger, IUsuarioRepository usuarioRepository){
+    public UsuarioController(ILogger<TareaController> logger, ITareaRepository tareaRepository, IUsuarioRepository usuarioRepository, ITableroRepository tableroRepository){
         _logger = logger;
+        _tareaRepository = tareaRepository;
+        _tableroRepository = tableroRepository;
         _usuarioRepository = usuarioRepository;
     }
 
@@ -106,6 +110,8 @@ public class UsuarioController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             if(!isAdmin()) return RedirectToAction("Index");
+            _tareaRepository.SetNullFromUser(idUsuario);
+            _tableroRepository.RemoveTableroFromUser(idUsuario);
             _usuarioRepository.RemoveUsuario(idUsuario);
             return RedirectToAction("Index");
         }

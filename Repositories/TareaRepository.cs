@@ -43,14 +43,14 @@ public class TareaRepository : ITareaRepository{
                 connection.Open();
                 command.Parameters.Add(new SQLiteParameter("@idTablero", id));
                 using(SQLiteDataReader reader = command.ExecuteReader()){
-                    var tarea = new Tarea();
                     while(reader.Read()){
+                        var tarea = new Tarea();
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = Convert.ToInt32(reader["id_tablero"]);
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
                         if(Enum.TryParse(typeof(estadoTarea), reader["estadoTarea"].ToString(), out var estado)){
                             tarea.Estado = (estadoTarea)estado;
                         }
@@ -82,11 +82,11 @@ public class TareaRepository : ITareaRepository{
                     while(reader.Read()){
                         var tarea = new Tarea();
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = Convert.ToInt32(reader["id_tablero"]);
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
                         if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                             tarea.Estado = (estadoTarea)estado;
                         }
@@ -116,14 +116,14 @@ public class TareaRepository : ITareaRepository{
                 connection.Open();
                 command.Parameters.Add(new SQLiteParameter("@idUser", id));
                 using(SQLiteDataReader reader = command.ExecuteReader()){
-                    var tarea = new Tarea();
                     while(reader.Read()){
+                        var tarea = new Tarea();
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = Convert.ToInt32(reader["id_tablero"]);
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
                         if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                             tarea.Estado = (estadoTarea)estado;
                         }
@@ -155,11 +155,11 @@ public class TareaRepository : ITareaRepository{
                 using(SQLiteDataReader reader = command.ExecuteReader()){
                     while(reader.Read()){
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = Convert.ToInt32(reader["id_tablero"]);
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
                         if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                             tarea.Estado = (estadoTarea)estado;
                         }
@@ -212,11 +212,11 @@ public class TareaRepository : ITareaRepository{
                     var tarea = new Tarea();
                     while(reader.Read()){
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = Convert.ToInt32(reader["id_tablero"]);
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = Convert.ToInt32(reader["id_usuario_asignado"]);
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
                         if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var est)){
                             tarea.Estado = (estadoTarea)est;
                         }
@@ -238,8 +238,13 @@ public class TareaRepository : ITareaRepository{
     }
 
     public Tarea UpdateTarea(Tarea tarea){
-        var queryString = @"UPDATE tarea SET id_tablero = @idTablero, nombre = @nombre,
-        estado = @estado, descripcion = @descripcion, color = @color, id_usuario_asignado = @idUser
+        var queryString = @"UPDATE tarea SET 
+        id_tablero = CASE WHEN @idTablero = 999 THEN NULL ELSE @idTablero END,
+        nombre = @nombre,
+        estado = @estado,
+        descripcion = @descripcion,
+        color = @color,
+        id_usuario_asignado = CASE WHEN @idUser = 999 THEN NULL ELSE @idUser END
         WHERE id_tarea = @id;";
         using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             try{
@@ -266,5 +271,23 @@ public class TareaRepository : ITareaRepository{
     
     public bool AssingTask(int idUsuario, int idTarea){
         throw new NotImplementedException();
+    }
+
+    public void SetNullFromUser(int idUsuario){
+        var queryString = @"UPDATE tarea SET id_usuario_asignado = NULL, id_tablero = NULL WHERE id_usuario_asignado = @idUsuario;";
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
+            try{
+                var command = new SQLiteCommand(queryString, connection);
+                connection.Open();
+                command.Parameters.Add(new SQLiteParameter("@idUsuario", idUsuario));
+                command.ExecuteNonQuery();
+            }
+            catch(Exception ex){
+                throw new Exception("Error: " + ex.Message, ex);
+            }
+            finally{
+                connection.Close();
+            }
+        }
     }
 }

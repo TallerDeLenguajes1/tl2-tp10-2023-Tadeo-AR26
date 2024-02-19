@@ -8,4 +8,5 @@ public interface ITableroRepository{
     public bool RemoveTablero(int id);
     public void UpdateTablero(Tablero tablero);
     public List<Tablero> GetAllTablerosFromUser(int idUsuario);
+    public void RemoveTableroFromUser(int idUsuario);
 }

@@ -94,3 +94,48 @@ body {
   background-color: #04AA6D;
   color: white;
 }
+
+/* Formulario */
+#formLogin {
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #17252A;
+  border-radius: 5px;
+  background-color: #3AAFA9;
+  width: 50%;
+  color: #FEFFFF
+}
+
+
+#formLogin label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Estilo para los inputs */
+#formLogin input[type="text"],
+#formLogin input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* mensajes de validacion */
+#formLogin .text-danger {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.boton-enviar{
+  background-color: #2b7a78; 
+  color: #feffff;             
+  padding: 10px 20px;       
+  border: none;             
+  border-radius: 5px;       
+  cursor: pointer;   
+}

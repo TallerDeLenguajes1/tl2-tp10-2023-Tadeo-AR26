@@ -160,4 +160,22 @@ public class TableroRepository : ITableroRepository{
             }
         }
     }
+
+    public void RemoveTableroFromUser(int idUsuario){
+        var queryString = @"DELETE FROM tablero WHERE id_usuario_propietario = @idUsuario;";
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
+            try{
+                var command = new SQLiteCommand(queryString, connection);
+                connection.Open();
+                command.Parameters.Add(new SQLiteParameter("@idUsuario", idUsuario));
+                command.ExecuteNonQuery();
+            }
+            catch(Exception ex){
+                throw new Exception("Error: " + ex.Message, ex);
+            }
+            finally{
+                connection.Close();
+            }
+        }
+    }
 }

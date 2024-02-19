@@ -24,12 +24,12 @@
         {
             <tr style="background-color: #@tarea.Color !important;">
                 <td hidden>@tarea.Id</td>
-                <td>@tarea.Id_tablero</td>
+                <td>@(tarea.Id_tablero == 999 ? "No asignado" : tarea.Id_tablero.ToString())</td> @*Muestra No asignado si el Id = 999*@
                 <td>@tarea.Nombre</td>
                 <td>@tarea.Estado</td>
                 <td>@tarea.Descripcion</td>
                 <td>@tarea.Color</td>
-                <td>@tarea.IdUsuarioAsignado</td>
+                <td>@(tarea.IdUsuarioAsignado == 999 ? "No asignado" : tarea.IdUsuarioAsignado.ToString())</td> @*Muestra No asignado si el Id = 999*@
                 <td>
                     <a asp-controller="Tarea" asp-action="EditarTarea" asp-route-idTarea="@tarea.Id" id="buttonEdit">Editar</a>
                     <a asp-controller="Tarea" asp-action="DeleteTarea" asp-route-idTarea="@tarea.Id" id="buttonRemove" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>                      

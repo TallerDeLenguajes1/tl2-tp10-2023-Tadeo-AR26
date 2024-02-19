@@ -139,3 +139,48 @@ body {
   border-radius: 5px;       
   cursor: pointer;   
 }
+
+.color-circle {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ffffff; /* Color de fondo blanco */
+  border: 1px solid #cccccc; /* Borde gris */
+  margin-right: 5px; /* Margen a la derecha para separar del texto */
+}
+
+#formulariosEdicion {
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #17252A;
+  border-radius: 5px;
+  background-color: #3AAFA9;
+  width: 50%;
+  color: #FEFFFF
+}
+
+
+#formulariosEdicion label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Estilo para los inputs */
+#formulariosEdicion input[type="text"],
+#formulariosEdicion input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* mensajes de validacion */
+#formulariosEdicion .text-danger {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

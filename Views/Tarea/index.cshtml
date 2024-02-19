@@ -28,7 +28,9 @@
                 <td>@tarea.Nombre</td>
                 <td>@tarea.Estado</td>
                 <td>@tarea.Descripcion</td>
-                <td>@tarea.Color</td>
+                <td>
+                    <span class="color-circle" style="background-color: #@tarea.Color;"></span> <!-- Circulo de color dinamico -->
+                </td>
                 <td>@(tarea.IdUsuarioAsignado == 999 ? "No asignado" : tarea.IdUsuarioAsignado.ToString())</td> @*Muestra No asignado si el Id = 999*@
                 <td>
                     <a asp-controller="Tarea" asp-action="EditarTarea" asp-route-idTarea="@tarea.Id" id="buttonEdit">Editar</a>

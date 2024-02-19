@@ -5,7 +5,7 @@
 @model espacioViewModels.EditarTareaViewModel
 
 <h1>@ViewData["Title"]</h1>
-<form asp-controller="Tarea" asp-action="EditarTareaFromForm" method="post">
+<form asp-controller="Tarea" asp-action="EditarTareaFromForm" method="post" id="formulariosEdicion">
     <input hidden asp-for="@Model.Id">
     <div class="form-group">
         <label asp-for="@Model.IdTablero"></label>
@@ -38,7 +38,7 @@
         <input value="@Model.IdUsuarioAsignado" asp-for="@Model.IdUsuarioAsignado" class="form-control" id="idUsuarioA" />
         <span asp-validation-for="@Model.IdUsuarioAsignado" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary" >Enviar</button>
+    <button type="submit" class="boton-enviar" >Enviar</button>
 </form>
 
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

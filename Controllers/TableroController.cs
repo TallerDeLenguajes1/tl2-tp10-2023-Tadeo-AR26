@@ -59,7 +59,7 @@ public class TableroController : Controller{
     public IActionResult AgregarTablero(){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            return View(new AgregarTableroViewModel());
+            return View(new AgregarTableroViewModel(getId()));
         }
         catch(System.Exception ex){
             _logger.LogError(ex.ToString());

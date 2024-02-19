@@ -4,13 +4,13 @@
 
 @model List<Tablero>
 
-<h2>Lista Tableros</h2>
+<h2>Lista de Tableros</h2>
 
 <table class="table table-dark">
     <thead>
         <tr>
             <th hidden>ID</th>
-            <th>IdUsuarioPropietario</th>
+            <th>Id Propietario</th>
             <th>Nombre</th>
             <th>Descripcion</th>
             <th></th>
@@ -25,15 +25,15 @@
                 <td>@tablero.Nombre</td>
                 <td>@tablero.Descripcion</td>
                 <td>
-                    <a asp-controller="Tablero" asp-action="EditarTablero" asp-route-idTablero="@tablero.Id">Editar</a>
-                    <a asp-controller="Tablero" asp-action="DeleteTablero" asp-route-idTablero="@tablero.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>                      
+                    <a asp-controller="Tablero" asp-action="EditarTablero" asp-route-idTablero="@tablero.Id" id="buttonEdit">Editar</a>
+                    <a asp-controller="Tablero" asp-action="DeleteTablero" asp-route-idTablero="@tablero.Id" id="buttonRemove" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>                      
                 </td>
             </tr>
         }
     </tbody>
     <tfoot>
         <tr>
-            <a asp-controller="Tablero" asp-action="agregarTablero">Agregar Tablero</a>
+            <a asp-controller="Tablero" asp-action="agregarTablero" id="buttonAdd">Agregar Tablero</a>
         </tr>
     </tfoot>
 </table>

@@ -13,11 +13,13 @@ public class AgregarUsuarioViewModel{
     private string contrasenia;
     [Required(ErrorMessage = "Campo requerido")]
     [Display(Name = "Contraseña")]
+    [PasswordPropertyText]
+    [StringLength(16, MinimumLength = 6, ErrorMessage = "La contraseña debe contener entre 6 y 16 caracteres.")]
     public string Contrasenia { get => contrasenia; set => contrasenia = value; }
 
     private Roles rol;
     [Required(ErrorMessage = "Campo requerido")]
-    [Display(Name = "Id")]
+    [Display(Name = "Rol")]
     public Roles Rol { get => rol; set => rol = value; }
 
 

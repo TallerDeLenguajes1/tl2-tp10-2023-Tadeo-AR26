@@ -11,9 +11,11 @@ public class AgregarTableroViewModel{
     private int idUsuarioPropietario;
     [Required(ErrorMessage = "Campo requerido")]
     [Display(Name = "Id del Usuario Propietario")]
+
     private string nombre;
     [Required(ErrorMessage = "Campo requerido")]
     [Display(Name = "Nombre del Tablero")]
+    
     private string descripcion;
     [Required(ErrorMessage = "Campo requerido")]
     [Display(Name = "Descripcion")] 
@@ -22,4 +24,10 @@ public class AgregarTableroViewModel{
     public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }
     public string Nombre { get => nombre; set => nombre = value; }
     public string Descripcion { get => descripcion; set => descripcion = value; }
+
+    public AgregarTableroViewModel(){}
+
+    public AgregarTableroViewModel(int idUsuario){
+        idUsuarioPropietario = idUsuario;
+    }
 }

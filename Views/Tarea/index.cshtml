@@ -10,12 +10,12 @@
     <thead>
         <tr>
             <th hidden>ID</th>
-            <th>IdTablero</th>
+            <th>Id Tablero</th>
             <th>Nombre</th>
             <th>Estado</th>
             <th>Descripcion</th>
             <th>Color</th>
-            <th>IdUsuarioAsignado</th>
+            <th>Id Usuario Asignado</th>
             <th></th>
         </tr>
     </thead>
@@ -31,15 +31,15 @@
                 <td>@tarea.Color</td>
                 <td>@tarea.IdUsuarioAsignado</td>
                 <td>
-                    <a asp-controller="Tarea" asp-action="EditarTarea" asp-route-idTarea="@tarea.Id">Editar</a>
-                    <a asp-controller="Tarea" asp-action="DeleteTarea" asp-route-idTarea="@tarea.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>                      
+                    <a asp-controller="Tarea" asp-action="EditarTarea" asp-route-idTarea="@tarea.Id" id="buttonEdit">Editar</a>
+                    <a asp-controller="Tarea" asp-action="DeleteTarea" asp-route-idTarea="@tarea.Id" id="buttonRemove" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>                      
                 </td>
             </tr>
         }
     </tbody>
     <tfoot>
         <tr>
-            <a asp-controller="Tarea" asp-action="AgregarTarea">Agregar Tarea</a>
+            <a asp-controller="Tarea" asp-action="AgregarTarea" id="buttonAdd">Agregar Tarea</a>
         </tr>
     </tfoot>
 </table>

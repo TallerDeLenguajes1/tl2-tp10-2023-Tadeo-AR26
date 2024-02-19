@@ -18,8 +18,9 @@ public class EditarUsuarioViewModel{
 
     private string contrasenia;
     [Required(ErrorMessage = "Campo requerido")]
-    [DataType(DataType.Password)]
-    [Display(Name = "contrasenia")]
+    [PasswordPropertyText]
+    [Display(Name = "Contraseña")]
+    [StringLength(16, MinimumLength = 6, ErrorMessage = "La contraseña debe contener entre 6 y 16 caracteres.")]
     public string Contrasenia { get => contrasenia; set => contrasenia = value; }
 
     private Roles rol;

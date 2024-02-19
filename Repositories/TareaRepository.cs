@@ -79,8 +79,8 @@ public class TareaRepository : ITareaRepository{
                 SQLiteCommand command = new SQLiteCommand(queryString, connection);
                 connection.Open();
                 using(SQLiteDataReader reader = command.ExecuteReader()){
-                    var tarea = new Tarea();
                     while(reader.Read()){
+                        var tarea = new Tarea();
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
                         tarea.Id_tablero = Convert.ToInt32(reader["id_tablero"]);
                         tarea.Nombre = reader["nombre"].ToString();

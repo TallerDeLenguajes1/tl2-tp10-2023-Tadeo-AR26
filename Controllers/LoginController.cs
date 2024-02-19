@@ -59,9 +59,8 @@ public class LoginController : Controller{
     if(HttpContext.Session.GetString("NivelDeAcceso") != null) {
         HttpContext.Session.Remove("NivelDeAcceso");
     }
-
     return RedirectToAction("Index", "Login");
-}
+    }
 
     
 }

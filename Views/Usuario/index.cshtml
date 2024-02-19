@@ -4,7 +4,7 @@
 
 @model List<Usuario>
 
-<h2>Lista Usuarios</h2>
+<h2>Lista de Usuarios</h2>
 
 <table class="table table-dark">
     <thead>
@@ -21,15 +21,15 @@
                 <td hidden>@usuario.Id</td>
                 <td>@usuario.NombreUsuario</td>
                 <td>
-                    <a asp-controller="Usuario" asp-action="EditarUsuario" asp-route-idUsuario="@usuario.Id">Editar</a>
-                    <a asp-controller="Usuario" asp-action="DeleteUsuario" asp-route-idUsuario="@usuario.Id" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>                      
+                    <a asp-controller="Usuario" asp-action="EditarUsuario" asp-route-idUsuario="@usuario.Id" id="buttonEdit">Editar</a>
+                    <a asp-controller="Usuario" asp-action="DeleteUsuario" asp-route-idUsuario="@usuario.Id" id="buttonRemove" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>                      
                 </td>
             </tr>
         }
     </tbody>
     <tfoot>
         <tr>
-            <a asp-controller="Usuario" asp-action="AgregarUsuario">Agregar Usuario</a>
+            <a asp-controller="Usuario" asp-action="AgregarUsuario" id="buttonAdd">Agregar Usuario</a>
         </tr>
     </tfoot>
 </table>

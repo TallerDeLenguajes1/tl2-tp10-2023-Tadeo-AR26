@@ -39,4 +39,10 @@ public class AgregarTareaViewModel{
     [Display(Name = "Id Usuario Asignado")]
     public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
 
+    public AgregarTareaViewModel(){}
+
+    public AgregarTareaViewModel(int idUsuario){
+        idUsuarioAsignado = idUsuario;
+    }
+
 }

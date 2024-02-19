@@ -21,7 +21,7 @@ public class TareaController : Controller{
     }
 
 
-    public IActionResult Index(int idTablero){
+    public IActionResult Index(){
         try{
             if(!isLogin()){
                 return RedirectToAction("Index", "Login");
@@ -58,7 +58,7 @@ public class TareaController : Controller{
     public IActionResult AgregarTarea(){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            return View(new AgregarTareaViewModel());
+            return View(new AgregarTareaViewModel(getId()));
         }
         catch(System.Exception ex){
             _logger.LogError(ex.ToString());
@@ -145,7 +145,7 @@ public class TareaController : Controller{
         return (HttpContext.Session.GetString("NivelDeAcceso") == "admin");
     }
 
-    private int getId(){
+    private int getId(){ //Obtiene el ID
         Usuario usuario = _usuarioRepository.GetAllUsuarios().FirstOrDefault(u => u.NombreUsuario == HttpContext.Session.GetString("Usuario"));
         return usuario.Id;
     }

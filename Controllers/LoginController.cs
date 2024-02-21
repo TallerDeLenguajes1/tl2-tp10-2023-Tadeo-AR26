@@ -34,8 +34,9 @@ public class LoginController : Controller{
             var usuarios = _usuarioRepository.GetAllUsuarios();
             var user = usuarios.FirstOrDefault(u => u.NombreUsuario == usuarioVM.Nombre && u.Contrasenia == usuarioVM.Contrasenia);
             if (user == null){
+                ModelState.AddModelError(string.Empty, "Usuario o contraseña incorrectos");
                 _logger.LogWarning("Intento de acceso invalido - Usuario:" + usuarioVM.Nombre + " Clave ingresada: " + usuarioVM.Contrasenia);
-                return RedirectToAction("Index");
+                return View("Index", usuarioVM);
             }
 
             _logger.LogInformation("el usuario " + user.NombreUsuario + " ingreso correctamente");

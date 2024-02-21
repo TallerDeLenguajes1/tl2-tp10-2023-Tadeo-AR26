@@ -13,6 +13,7 @@
         <input asp-for="@Model.Contrasenia" type="password" class="form-control" />
         <span asp-validation-for="@Model.Contrasenia" class="text-danger"></span>
     </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <button type="submit" class="boton-enviar">Enviar</button>
 </form>
 

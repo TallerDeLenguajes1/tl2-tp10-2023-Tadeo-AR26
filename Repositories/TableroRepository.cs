@@ -32,7 +32,9 @@ public class TableroRepository : ITableroRepository{
     }
 
     public List<Tablero> GetAllTableros(){
-        var queryString = @"SELECT * FROM tablero";
+        var queryString = @"SELECT t.id_tablero, t.id_usuario_propietario, t.nombre, t.descripcion, u.nombre_de_usuario
+                            FROM tablero t
+                            INNER JOIN usuario u ON t.id_usuario_propietario = u.id_usuario;";
         var listaTableros = new List<Tablero>();
         using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             try{
@@ -45,6 +47,7 @@ public class TableroRepository : ITableroRepository{
                         tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
                         tablero.Nombre = reader["nombre"].ToString();
                         tablero.Descripcion = reader["descripcion"].ToString();
+                        tablero.Propietario = reader["nombre_de_usuario"].ToString();
                         listaTableros.Add(tablero);
                     }
                 }
@@ -61,7 +64,10 @@ public class TableroRepository : ITableroRepository{
 
 
     public List<Tablero> GetAllTablerosFromUser(int idUsuario){
-        var queryString = @"SELECT * FROM tablero WHERE id_usuario_propietario = @idUser;";
+        var queryString = @"SELECT t.id_tablero, t.id_usuario_propietario, t.nombre, t.descripcion, u.nombre_de_usuario
+                            FROM tablero t
+                            INNER JOIN usuario u ON t.id_usuario_propietario = u.id_usuario;
+                            WHERE t.id_usuario_propietario = @idUser";
         var listaTableros = new List<Tablero>();
         using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             try{
@@ -75,6 +81,7 @@ public class TableroRepository : ITableroRepository{
                         tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
                         tablero.Nombre = reader["nombre"].ToString();
                         tablero.Descripcion = reader["descripcion"].ToString();
+                        tablero.Propietario = reader["nombre_de_usuario"].ToString();
                         listaTableros.Add(tablero);
                     }
                 }
@@ -90,7 +97,10 @@ public class TableroRepository : ITableroRepository{
     }
 
     public Tablero GetTableroByID(int id){
-        var queryString = @"SELECT * FROM tablero WHERE id_tablero = @idTablero;";
+        var queryString = @"SELECT t.id_tablero, t.id_usuario_propietario, t.nombre, t.descripcion, u.nombre_de_usuario
+                            FROM tablero t
+                            INNER JOIN usuario u ON t.id_usuario_propietario = u.id_usuario
+                            WHERE id_tablero = @idTablero;";
         var tablero = new Tablero();
         using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             try{
@@ -103,6 +113,7 @@ public class TableroRepository : ITableroRepository{
                         tablero.IdUsuarioPropietario = Convert.ToInt32(reader["id_usuario_propietario"]);
                         tablero.Nombre = reader["nombre"].ToString();
                         tablero.Descripcion = reader["descripcion"].ToString();
+                        tablero.Propietario = reader["nombre_de_usuario"].ToString();
                     }
                 }
             }

@@ -61,7 +61,9 @@ public class TableroController : Controller{
     public IActionResult AgregarTablero(){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            return View(new AgregarTableroViewModel(getId()));
+            List<Usuario> listaDeUsuarios;
+            listaDeUsuarios = _usuarioRepository.GetAllUsuarios();
+            return View(new AgregarTableroViewModel(listaDeUsuarios));
         }
         catch(System.Exception ex){
             _logger.LogError(ex.ToString());
@@ -87,9 +89,11 @@ public class TableroController : Controller{
     public IActionResult EditarTablero(int idTablero){  
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
+            List<Usuario> listaDeUsuarios;
+            listaDeUsuarios = _usuarioRepository.GetAllUsuarios();
             Tablero tablero = _tableroRepository.GetTableroByID(idTablero);
             if(tablero != null){
-                return View(new EditarTableroViewModel(tablero));
+                return View(new EditarTableroViewModel(tablero, listaDeUsuarios));
             }
             else{
                 return RedirectToAction("Index");
@@ -97,8 +101,7 @@ public class TableroController : Controller{
         }
         catch(System.Exception ex){
             _logger.LogError(ex.ToString());
-            return BadRequest();
-            
+            return BadRequest();     
         }
     }
 

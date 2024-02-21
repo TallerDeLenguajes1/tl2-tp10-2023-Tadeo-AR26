@@ -24,6 +24,11 @@ public class ListarTableroViewModel{
     [Display(Name = "Descripcion")] 
     public string Descripcion { get => descripcion; set => descripcion = value; }
 
+    private string propietario;
+    [Required(ErrorMessage = "Campo requerido")]
+    [Display(Name = "Propietario")]
+    public string Propietario { get => propietario; set => propietario = value; }
+
     public ListarTableroViewModel(){}
 
     public ListarTableroViewModel(Tablero tablero){
@@ -31,6 +36,7 @@ public class ListarTableroViewModel{
         idUsuarioPropietario = tablero.IdUsuarioPropietario;
         nombre = tablero.Nombre;
         descripcion = tablero.Descripcion;
+        propietario = tablero.Propietario;
     }
 
     public ListarTableroViewModel(List<Tablero> tableros) {
@@ -39,6 +45,7 @@ public class ListarTableroViewModel{
             idUsuarioPropietario = tablero.IdUsuarioPropietario;
             nombre = tablero.Nombre;
             descripcion = tablero.Descripcion;
+            propietario = tablero.Propietario;
         }
     }
 }

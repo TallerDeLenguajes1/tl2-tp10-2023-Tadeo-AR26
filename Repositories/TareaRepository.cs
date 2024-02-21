@@ -290,4 +290,22 @@ public class TareaRepository : ITareaRepository{
             }
         }
     }
+
+    public void SetNullFromBoard(int idTablero){
+        var queryString = @"UPDATE tarea SET id_tablero = NULL WHERE id_tablero = @idTablero;";
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
+            try{
+                var command = new SQLiteCommand(queryString, connection);
+                connection.Open();
+                command.Parameters.Add(new SQLiteParameter("@idTablero", idTablero));
+                command.ExecuteNonQuery();
+            }
+            catch(Exception ex){
+                throw new Exception("Error: " + ex.Message, ex);
+            }
+            finally{
+                connection.Close();
+            }
+        }
+    }
 }

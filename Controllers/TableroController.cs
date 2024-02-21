@@ -8,12 +8,14 @@ using espacioViewModels;
 namespace espacioController;
 
 public class TableroController : Controller{
-    private readonly ILogger<TableroController> _logger;
+    private readonly ILogger<TareaController> _logger;
+    private readonly ITareaRepository _tareaRepository;
     private readonly ITableroRepository _tableroRepository;
     private readonly IUsuarioRepository _usuarioRepository;
 
-    public TableroController(ILogger<TableroController> logger, IUsuarioRepository usuarioRepository, ITableroRepository tableroRepository){
+    public TableroController(ILogger<TareaController> logger, ITareaRepository tareaRepository, IUsuarioRepository usuarioRepository, ITableroRepository tableroRepository){
         _logger = logger;
+        _tareaRepository = tareaRepository;
         _tableroRepository = tableroRepository;
         _usuarioRepository = usuarioRepository;
     }
@@ -118,6 +120,7 @@ public class TableroController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             if(!isAdmin()) return RedirectToAction("Index");
+            _tareaRepository.SetNullFromBoard(idTablero);
             _tableroRepository.RemoveTablero(idTablero);
             return RedirectToAction("Index");
         }

@@ -46,12 +46,14 @@ public class TareaRepository : ITareaRepository{
                     while(reader.Read()){
                         var tarea = new Tarea();
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
-                        if(Enum.TryParse(typeof(estadoTarea), reader["estadoTarea"].ToString(), out var estado)){
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
+                        tarea.UsuarioAsignado = tarea.IdUsuarioAsignado != -1 ? reader["nombre_de_usuario"].ToString() : "No asignado";
+                        tarea.TableroAsignado = tarea.Id_tablero != -1 ? reader["nombre_tablero"].ToString() : "No asignado";
+                        if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                             tarea.Estado = (estadoTarea)estado;
                         }
                         else{
@@ -72,7 +74,10 @@ public class TareaRepository : ITareaRepository{
     }
 
     public List<Tarea> GetAllTareas(){
-        var queryString = @"SELECT * FROM tarea;";
+        var queryString = @"SELECT tarea.id_tarea, tarea.id_tablero, tarea.nombre, tarea.descripcion, tarea.estado, tarea.color, tarea.id_usuario_asignado, tablero.nombre AS nombre_tablero, usuario.nombre_de_usuario
+                            FROM tarea
+                            LEFT JOIN tablero ON tarea.id_tablero = tablero.id_tablero
+                            LEFT JOIN usuario ON tarea.id_usuario_asignado = usuario.id_usuario;";
         var listaTareas = new List<Tarea>();
         using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             try{
@@ -82,11 +87,13 @@ public class TareaRepository : ITareaRepository{
                     while(reader.Read()){
                         var tarea = new Tarea();
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
+                        tarea.UsuarioAsignado = tarea.IdUsuarioAsignado != -1 ? reader["nombre_de_usuario"].ToString() : "No asignado";
+                        tarea.TableroAsignado = tarea.Id_tablero != -1 ? reader["nombre_tablero"].ToString() : "No asignado";
                         if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                             tarea.Estado = (estadoTarea)estado;
                         }
@@ -108,7 +115,11 @@ public class TareaRepository : ITareaRepository{
     }
 
     public List<Tarea> GetAllTareasFromUser(int id){
-        var queryString = @"SELECT * FROM tarea WHERE id_usuario_asignado = @idUser;";
+        var queryString = @"SELECT tarea.id_tarea, tarea.id_tablero, tarea.nombre, tarea.descripcion, tarea.estado, tarea.color, tarea.id_usuario_asignado, tablero.nombre AS nombre_tablero, usuario.nombre_de_usuario
+                            FROM tarea
+                            LEFT JOIN tablero ON tarea.id_tablero = tablero.id_tablero
+                            LEFT JOIN usuario ON tarea.id_usuario_asignado = usuario.id_usuario
+                            WHERE id_usuario_asignado = @idUser;";
         var listaTareas = new List<Tarea>();
         using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             try{
@@ -119,11 +130,13 @@ public class TareaRepository : ITareaRepository{
                     while(reader.Read()){
                         var tarea = new Tarea();
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
+                        tarea.UsuarioAsignado = tarea.IdUsuarioAsignado != -1 ? reader["nombre_de_usuario"].ToString() : "No asignado";
+                        tarea.TableroAsignado = tarea.Id_tablero != -1 ? reader["nombre_tablero"].ToString() : "No asignado";
                         if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                             tarea.Estado = (estadoTarea)estado;
                         }
@@ -145,7 +158,11 @@ public class TareaRepository : ITareaRepository{
     }
 
     public Tarea GetTareaById(int id){
-        var queryString = @"SELECT * FROM tarea WHERE id_tarea = @idTarea;";
+        var queryString = @"SELECT tarea.id_tarea, tarea.id_tablero, tarea.nombre, tarea.descripcion, tarea.estado, tarea.color, tarea.id_usuario_asignado, tablero.nombre AS nombre_tablero, usuario.nombre_de_usuario
+                            FROM tarea
+                            LEFT JOIN tablero ON tarea.id_tablero = tablero.id_tablero
+                            LEFT JOIN usuario ON tarea.id_usuario_asignado = usuario.id_usuario
+                            WHERE id_tarea = @idTarea;";
         var tarea = new Tarea();
         using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             try{
@@ -155,11 +172,13 @@ public class TareaRepository : ITareaRepository{
                 using(SQLiteDataReader reader = command.ExecuteReader()){
                     while(reader.Read()){
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
+                        tarea.UsuarioAsignado = tarea.IdUsuarioAsignado != -1 ? reader["nombre_de_usuario"].ToString() : "No asignado";
+                        tarea.TableroAsignado = tarea.Id_tablero != -1 ? reader["nombre_tablero"].ToString() : "No asignado";
                         if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var estado)){
                             tarea.Estado = (estadoTarea)estado;
                         }
@@ -212,11 +231,11 @@ public class TareaRepository : ITareaRepository{
                     var tarea = new Tarea();
                     while(reader.Read()){
                         tarea.Id = Convert.ToInt32(reader["id_tarea"]);
-                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : 999;
+                        tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
                         tarea.Color = reader["color"].ToString();
-                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : 999;
+                        tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
                         if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var est)){
                             tarea.Estado = (estadoTarea)est;
                         }
@@ -239,12 +258,12 @@ public class TareaRepository : ITareaRepository{
 
     public Tarea UpdateTarea(Tarea tarea){
         var queryString = @"UPDATE tarea SET 
-        id_tablero = CASE WHEN @idTablero = 999 THEN NULL ELSE @idTablero END,
+        id_tablero = CASE WHEN @idTablero = -1 THEN NULL ELSE @idTablero END,
         nombre = @nombre,
         estado = @estado,
         descripcion = @descripcion,
         color = @color,
-        id_usuario_asignado = CASE WHEN @idUser = 999 THEN NULL ELSE @idUser END
+        id_usuario_asignado = CASE WHEN @idUser = -1 THEN NULL ELSE @idUser END
         WHERE id_tarea = @id;";
         using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             try{

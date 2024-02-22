@@ -16,6 +16,8 @@ public class Tarea{
     private string descripcion;
     private string color;
     private int idUsuarioAsignado;
+    private string usuarioAsignado;
+    private string tableroAsignado;
 
     public int Id { get => id; set => id = value; }
     public int Id_tablero { get => id_tablero; set => id_tablero = value; }
@@ -24,6 +26,8 @@ public class Tarea{
     public string Descripcion { get => descripcion; set => descripcion = value; }
     public string Color { get => color; set => color = value; }
     public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
+    public string UsuarioAsignado { get => usuarioAsignado; set => usuarioAsignado = value; }
+    public string TableroAsignado { get => tableroAsignado; set => tableroAsignado = value; }
 
 
     public Tarea(){

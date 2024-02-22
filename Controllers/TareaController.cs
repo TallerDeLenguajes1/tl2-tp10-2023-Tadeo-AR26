@@ -58,7 +58,9 @@ public class TareaController : Controller{
     public IActionResult AgregarTarea(){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            return View(new AgregarTareaViewModel(getId()));
+            List<Tablero> listaTableros = _tableroRepository.GetAllTableros();
+            List<Usuario> listaUsuarios = _usuarioRepository.GetAllUsuarios();
+            return View(new AgregarTareaViewModel(listaTableros, listaUsuarios));
         }
         catch(System.Exception ex){
             _logger.LogError(ex.ToString());
@@ -85,8 +87,10 @@ public class TareaController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             Tarea tarea = _tareaRepository.GetTareaById(idTarea);
+            List<Tablero> listaTableros = _tableroRepository.GetAllTableros();
+            List<Usuario> listaUsuarios = _usuarioRepository.GetAllUsuarios();
             if(tarea != null){
-                return View(new EditarTareaViewModel(tarea));
+                return View(new EditarTareaViewModel(tarea, listaTableros, listaUsuarios));
             }
             else{
                 return RedirectToAction("Index", new { idTablero = _tareaRepository.GetTareaById(idTarea).Id_tablero });

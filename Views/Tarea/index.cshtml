@@ -10,12 +10,14 @@
     <thead>
         <tr>
             <th hidden>ID</th>
-            <th>Id Tablero</th>
+            <th hidden>Id Tablero</th>
+            <th>Tablero Asignado</th>
             <th>Nombre</th>
             <th>Estado</th>
             <th>Descripcion</th>
             <th>Color</th>
-            <th>Id Usuario Asignado</th>
+            <th hidden>Id Usuario Asignado</th>
+            <th>Usuario Asignado</th>
             <th></th>
         </tr>
     </thead>
@@ -24,14 +26,16 @@
         {
             <tr style="background-color: #@tarea.Color !important;">
                 <td hidden>@tarea.Id</td>
-                <td>@(tarea.Id_tablero == 999 ? "No asignado" : tarea.Id_tablero.ToString())</td> @*Muestra No asignado si el Id = 999*@
+                <td hidden>@(tarea.Id_tablero == -1 ? "No asignado" : tarea.Id_tablero.ToString())</td> @*Muestra No asignado si el Id = 999*@
+                <td>@tarea.TableroAsignado</td>
                 <td>@tarea.Nombre</td>
                 <td>@tarea.Estado</td>
                 <td>@tarea.Descripcion</td>
                 <td>
                     <span class="color-circle" style="background-color: #@tarea.Color;"></span> <!-- Circulo de color dinamico -->
                 </td>
-                <td>@(tarea.IdUsuarioAsignado == 999 ? "No asignado" : tarea.IdUsuarioAsignado.ToString())</td> @*Muestra No asignado si el Id = 999*@
+                <td hidden>@(tarea.IdUsuarioAsignado == -1 ? "No asignado" : tarea.IdUsuarioAsignado.ToString())</td> @*Muestra No asignado si el Id = 999*@
+                <td>@tarea.UsuarioAsignado</td>
                 <td>
                     <a asp-controller="Tarea" asp-action="EditarTarea" asp-route-idTarea="@tarea.Id" id="buttonEdit">Editar</a>
                     <a asp-controller="Tarea" asp-action="DeleteTarea" asp-route-idTarea="@tarea.Id" id="buttonRemove" onclick="return confirm('¿Estas seguro que quieres eliminar el elemento?')">Eliminar</a>                      

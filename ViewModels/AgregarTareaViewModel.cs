@@ -39,10 +39,23 @@ public class AgregarTareaViewModel{
     [Display(Name = "Id Usuario Asignado")]
     public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
 
+    private List<Usuario> usuarios;
+    [Display(Name = "Usuarios")]
+    public List<Usuario> Usuarios { get => usuarios; set => usuarios = value; }
+
+    private List<Tablero> tableros;
+    [Display(Name = "Tablero")]
+    public List<Tablero> Tableros { get => tableros; set => tableros = value; }
+
     public AgregarTareaViewModel(){}
 
     public AgregarTareaViewModel(int idUsuario){
         idUsuarioAsignado = idUsuario;
+    }
+
+    public AgregarTareaViewModel(List<Tablero> listaTableros, List<Usuario> listaUsuarios){
+        usuarios = listaUsuarios;
+        tableros = listaTableros;
     }
 
 }

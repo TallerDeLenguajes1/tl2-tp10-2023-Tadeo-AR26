@@ -46,6 +46,16 @@ public class ListarTareaViewModel{
     [Display(Name = "Id Usuario Asignado")]
     public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
 
+    private string usuarioAsignado;
+    [Required(ErrorMessage = "Campo requerido")]
+    [Display(Name = "Usuario Asignado")]
+    public string UsuarioAsignado { get => usuarioAsignado; set => usuarioAsignado = value; }
+
+    private string tableroAsignado;
+    [Required(ErrorMessage = "Campo requerido")]
+    [Display(Name = "Usuario Asignado")]
+    public string TableroAsignado { get => tableroAsignado; set => tableroAsignado = value; }
+
 
     public static List<ListarTareaViewModel> FromTarea(List<Tarea> tareas)
     {
@@ -64,6 +74,22 @@ public class ListarTareaViewModel{
                 listaTareasVM.Add(newTVM);
             }
             return(listaTareasVM);
+    }
+
+    public ListarTareaViewModel(){}
+
+    public ListarTareaViewModel(List<Tarea> tareas){
+        foreach (var tarea in tareas){
+            id = tarea.Id;
+            idTablero = tarea.Id_tablero;
+            nombre = tarea.Nombre;
+            estado = (espacioViewModels.estadoTarea)tarea.Estado;
+            descripcion = tarea.Descripcion;
+            color = tarea.Color;
+            idUsuarioAsignado = tarea.IdUsuarioAsignado;
+            usuarioAsignado = tarea.UsuarioAsignado;
+            tableroAsignado = tarea.TableroAsignado;
+        }
     }
     
 }

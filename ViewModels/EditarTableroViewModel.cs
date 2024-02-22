@@ -22,7 +22,7 @@ public class EditarTableroViewModel{
 
     private List<Usuario> usuarios;
     [Required(ErrorMessage = "Campo requerido")]
-    [Display(Name = "Descripcion")]
+    [Display(Name = "Usuarios")]
 
     public int Id { get => id; set => id = value; }
     public int IdUsuarioPropietario { get => idUsuarioPropietario; set => idUsuarioPropietario = value; }

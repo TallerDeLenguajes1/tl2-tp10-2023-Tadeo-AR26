@@ -101,7 +101,8 @@ public class UsuarioRepository : IUsuarioRepository{
     }
 
     public Usuario UpdateUsuario(Usuario usuario){
-        var queryString = @"UPDATE usuario SET nombre_de_usuario = @nombre WHERE id_usuario = @id;";
+        var queryString = @"UPDATE usuario SET nombre_de_usuario = @nombre, contrasenia = @contrasenia,
+        rol = @rol WHERE id_usuario = @id;";
         using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
             try{
                 var command = new SQLiteCommand(queryString, connection);
@@ -120,5 +121,24 @@ public class UsuarioRepository : IUsuarioRepository{
             }
         }
         return usuario;
+    }
+
+    public bool ExisteUsuario(string nombre){
+        var queryString = @"SELECT COUNT(*) FROM usuario WHERE nombre_de_usuario = @nombre;";
+        using(SQLiteConnection connection = new SQLiteConnection(_cadenaConexion)){
+            try{
+                var command = new SQLiteCommand(queryString, connection);
+                connection.Open();
+                command.Parameters.Add(new SQLiteParameter("@nombre", nombre));
+                int count = Convert.ToInt32(command.ExecuteScalar());
+                return count > 0;
+            }
+            catch(Exception ex){
+                throw new Exception("Error: " + ex.Message, ex);
+            }
+            finally{
+                connection.Close();
+            }
+        }
     }
 }

@@ -34,8 +34,9 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.Color"></label>
-        <input value="@Model.Color" asp-for="@Model.Color" class="form-control" id="color" />
-        <span asp-validation-for="@Model.Color" class="text-danger"></span>
+        <select asp-for="@Model.Color" asp-items="Html.GetEnumSelectList<colorTarea>()" class="form-control">
+            <option value="">Seleccionar Color</option>
+        </select>
     </div>
     <div class="form-group">
         <label asp-for="@Model.IdUsuarioAsignado">Usuario a Asignar</label>
@@ -46,6 +47,7 @@
             </select>
         <span asp-validation-for="@Model.IdUsuarioAsignado" class="text-danger"></span>
     </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <button type="submit" class="boton-enviar" >Enviar</button>
 </form>
 

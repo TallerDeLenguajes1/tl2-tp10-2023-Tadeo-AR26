@@ -8,13 +8,23 @@ public enum estadoTarea{
     Review,
     Done
 }
+
+public enum colorTarea{
+    red,
+    white,
+    yellow,
+    skyblue,
+    green,
+    black
+}
+
 public class Tarea{
     private int id;
     private int id_tablero;
     private string nombre;
     private estadoTarea estado;
     private string descripcion;
-    private string color;
+    private colorTarea color;
     private int idUsuarioAsignado;
     private string usuarioAsignado;
     private string tableroAsignado;
@@ -24,7 +34,7 @@ public class Tarea{
     public string Nombre { get => nombre; set => nombre = value; }
     public estadoTarea Estado { get => estado; set => estado = value; }
     public string Descripcion { get => descripcion; set => descripcion = value; }
-    public string Color { get => color; set => color = value; }
+    public colorTarea Color { get => color; set => color = value; }
     public int IdUsuarioAsignado { get => idUsuarioAsignado; set => idUsuarioAsignado = value; }
     public string UsuarioAsignado { get => usuarioAsignado; set => usuarioAsignado = value; }
     public string TableroAsignado { get => tableroAsignado; set => tableroAsignado = value; }
@@ -39,7 +49,7 @@ public class Tarea{
         id_tablero = tareaVM.IdTablero;
         nombre = tareaVM.Nombre;
         descripcion = tareaVM.Descripcion;
-        color = tareaVM.Color;
+        color = (colorTarea)tareaVM.Color;
         estado = (estadoTarea)tareaVM.Estado;
         idUsuarioAsignado = tareaVM.IdUsuarioAsignado;
     }
@@ -49,7 +59,7 @@ public class Tarea{
         id_tablero = tareaVM.IdTablero;
         nombre = tareaVM.Nombre;
         descripcion = tareaVM.Descripcion;
-        color = tareaVM.Color;
+        color = (colorTarea)tareaVM.Color;
         estado = (estadoTarea)tareaVM.Estado;
         idUsuarioAsignado = tareaVM.IdUsuarioAsignado;
     }

@@ -29,10 +29,10 @@ public class EditarTareaViewModel{
     [Display(Name = "Descripcion")]
     public string Descripcion { get => descripcion; set => descripcion = value; }
 
-    private string color;
+    private colorTarea color;
     [Required(ErrorMessage = "Campo requerido")]
     [Display(Name = "Color")]
-    public string Color { get => color; set => color = value; }
+    public colorTarea Color { get => color; set => color = value; }
 
     private int idUsuarioAsignado;
     [Required(ErrorMessage = "Campo requerido")]
@@ -55,7 +55,7 @@ public class EditarTareaViewModel{
         nombre = tarea.Nombre;
         estado = (espacioViewModels.estadoTarea)tarea.Estado;
         descripcion = tarea.Descripcion;
-        color = tarea.Color;
+        color = (espacioViewModels.colorTarea)tarea.Color;
         idUsuarioAsignado = tarea.IdUsuarioAsignado;
     }
 
@@ -65,7 +65,7 @@ public class EditarTareaViewModel{
         nombre = tarea.Nombre;
         estado = (espacioViewModels.estadoTarea)tarea.Estado;
         descripcion = tarea.Descripcion;
-        color = tarea.Color;
+        color = (espacioViewModels.colorTarea)tarea.Color;
         idUsuarioAsignado = tarea.IdUsuarioAsignado;
         tableros = listaTableros;
         usuarios = listaUsuarios;

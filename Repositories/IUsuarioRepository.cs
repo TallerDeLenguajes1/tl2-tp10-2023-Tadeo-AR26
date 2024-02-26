@@ -7,4 +7,5 @@ public interface IUsuarioRepository{
     public Usuario CreateUsuario(Usuario usuario);
     public bool RemoveUsuario(int id);
     public Usuario UpdateUsuario(Usuario usuario);
+    public bool ExisteUsuario(string nombre);
 }

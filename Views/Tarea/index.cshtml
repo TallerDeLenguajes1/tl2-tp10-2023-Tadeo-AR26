@@ -32,7 +32,7 @@
                 <td>@tarea.Estado</td>
                 <td>@tarea.Descripcion</td>
                 <td>
-                    <span class="color-circle" style="background-color: #@tarea.Color;"></span> <!-- Circulo de color dinamico -->
+                    <span class="color-circle" style="background-color: @tarea.Color;"></span> <!-- Circulo de color dinamico -->
                 </td>
                 <td hidden>@(tarea.IdUsuarioAsignado == -1 ? "No asignado" : tarea.IdUsuarioAsignado.ToString())</td> @*Muestra No asignado si el Id = 999*@
                 <td>@tarea.UsuarioAsignado</td>

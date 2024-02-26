@@ -75,7 +75,9 @@ public class TableroController : Controller{
     public IActionResult AgregarTableroFromForm([FromForm] AgregarTableroViewModel nuevoTableroVM){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            if(!ModelState.IsValid) return RedirectToAction("AgregarTablero");
+            if(!ModelState.IsValid){
+                return View("AgregarTablero", nuevoTableroVM);
+            }
             _tableroRepository.CreateTablero(new Tablero(nuevoTableroVM));
             return RedirectToAction("Index");
         }
@@ -109,7 +111,9 @@ public class TableroController : Controller{
     public IActionResult EditarTableroFromForm([FromForm] EditarTableroViewModel tableroAEditarVM){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            if(!ModelState.IsValid) return RedirectToAction("EditarTablero");
+            if(!ModelState.IsValid){
+                return View("EditarTablero", tableroAEditarVM);
+            }
             _tableroRepository.UpdateTablero(new Tablero(tableroAEditarVM));
             return RedirectToAction("Index");
         }

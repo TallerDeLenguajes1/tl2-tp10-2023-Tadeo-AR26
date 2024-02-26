@@ -11,5 +11,16 @@
         <label asp-for="@Model.Nombre"></label>
         <input asp-for="@Model.Nombre" class="form-control" id="nombre" />
     </div>
+    <div class="form-group">
+        <label asp-for="@Model.Contrasenia"></label>
+        <input asp-for="@Model.Contrasenia" class="form-control" type="password" id="contrasenia" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Rol"></label>
+        <select asp-for="@Model.Rol" asp-items="Html.GetEnumSelectList<Roles>()" class="form-control" id="rol">
+            <option value="">Seleccionar Rol</option>
+        </select>
+    </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <button type="submit" class="boton-enviar" >Enviar</button>
 </form>

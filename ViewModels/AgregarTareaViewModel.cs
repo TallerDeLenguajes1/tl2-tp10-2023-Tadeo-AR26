@@ -29,10 +29,10 @@ public class AgregarTareaViewModel{
     [Display(Name = "Descripcion")]
     public string Descripcion { get => descripcion; set => descripcion = value; }
 
-    private string? color;
+    private colorTarea color;
     [Required(ErrorMessage = "Campo requerido")]
     [Display(Name = "Color")]
-    public string Color { get => color; set => color = value; }
+    public colorTarea Color { get => color; set => color = value; }
 
     private int idUsuarioAsignado;
     [Required(ErrorMessage = "Campo requerido")]

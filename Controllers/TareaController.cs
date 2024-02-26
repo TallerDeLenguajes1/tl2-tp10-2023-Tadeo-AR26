@@ -72,7 +72,9 @@ public class TareaController : Controller{
     public IActionResult AgregarTareaFromForm([FromForm] AgregarTareaViewModel nuevaTareaVM){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            if(!ModelState.IsValid) return RedirectToAction("AgregarTarea");
+            if(!ModelState.IsValid){
+                return View("AgregarTarea", nuevaTareaVM);
+            }
             _tareaRepository.CreateTarea(new Tarea(nuevaTareaVM));
             return RedirectToAction("Index", new { idTablero = nuevaTareaVM.IdTablero });
         }
@@ -107,7 +109,9 @@ public class TareaController : Controller{
     public IActionResult EditarTareaFromForm([FromForm] EditarTareaViewModel tareaAEditarVM){
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
-            if(!ModelState.IsValid) return RedirectToAction("Index");
+            if(!ModelState.IsValid){
+                return View("EditarTarea", tareaAEditarVM);
+            }
             _tareaRepository.UpdateTarea(new Tarea(tareaAEditarVM));
             return RedirectToAction("Index", new { idTablero = tareaAEditarVM.IdTablero });
         }

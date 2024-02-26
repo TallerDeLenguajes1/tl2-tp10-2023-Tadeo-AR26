@@ -60,9 +60,14 @@ public class UsuarioController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             if(!isAdmin()) return RedirectToAction("Index");
-            if(!ModelState.IsValid) return RedirectToAction("AgregarUsuario");
-            Console.WriteLine($"{nuevoUsuarioVM.Nombre}");
-            Console.WriteLine($"{nuevoUsuarioVM.Contrasenia}");
+            if(!ModelState.IsValid){
+                return View("AgregarUsuario", nuevoUsuarioVM);
+            }
+            if (_usuarioRepository.ExisteUsuario(nuevoUsuarioVM.Nombre)){
+                ModelState.AddModelError("Nombre", "Ya existe un usuario con este nombre de usuario");
+                Console.WriteLine("Ya existe el nombre");
+                return View("AgregarUsuario", nuevoUsuarioVM);
+            }
             _usuarioRepository.CreateUsuario(new Usuario(nuevoUsuarioVM));
             return RedirectToAction("Index");
         }
@@ -96,7 +101,14 @@ public class UsuarioController : Controller{
         try{
             if(!isLogin()) return RedirectToAction("Index", "Login");
             if(!isAdmin()) return RedirectToAction("Index");
-            if(!ModelState.IsValid) return RedirectToAction("EditarUsuario");
+            if(!ModelState.IsValid){
+                return View("EditarUsuario", usuarioAEditarVM);
+            }
+            if (_usuarioRepository.ExisteUsuario(usuarioAEditarVM.Nombre)){
+                ModelState.AddModelError("Nombre", "Ya existe un usuario con este nombre de usuario");
+                Console.WriteLine("Ya existe el nombre");
+                return View("EditarUsuario", usuarioAEditarVM);
+            }
             _usuarioRepository.UpdateUsuario(new Usuario(usuarioAEditarVM));
             return RedirectToAction("Index");
         }

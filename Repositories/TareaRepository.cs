@@ -49,7 +49,6 @@ public class TareaRepository : ITareaRepository{
                         tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
-                        tarea.Color = reader["color"].ToString();
                         tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
                         tarea.UsuarioAsignado = tarea.IdUsuarioAsignado != -1 ? reader["nombre_de_usuario"].ToString() : "No asignado";
                         tarea.TableroAsignado = tarea.Id_tablero != -1 ? reader["nombre_tablero"].ToString() : "No asignado";
@@ -58,6 +57,12 @@ public class TareaRepository : ITareaRepository{
                         }
                         else{
                             tarea.Estado = estadoTarea.ToDo;
+                        }
+                        if(Enum.TryParse(typeof(colorTarea), reader["color"].ToString(), out var color)){
+                            tarea.Color = (colorTarea)color;
+                        }
+                        else{
+                            tarea.Color = colorTarea.white;
                         }
                         listaTareas.Add(tarea);
                     }
@@ -90,7 +95,6 @@ public class TareaRepository : ITareaRepository{
                         tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
-                        tarea.Color = reader["color"].ToString();
                         tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
                         tarea.UsuarioAsignado = tarea.IdUsuarioAsignado != -1 ? reader["nombre_de_usuario"].ToString() : "No asignado";
                         tarea.TableroAsignado = tarea.Id_tablero != -1 ? reader["nombre_tablero"].ToString() : "No asignado";
@@ -99,6 +103,12 @@ public class TareaRepository : ITareaRepository{
                         }
                         else{
                             tarea.Estado = estadoTarea.ToDo;
+                        }
+                        if(Enum.TryParse(typeof(colorTarea), reader["color"].ToString(), out var color)){
+                            tarea.Color = (colorTarea)color;
+                        }
+                        else{
+                            tarea.Color = colorTarea.white;
                         }
                         listaTareas.Add(tarea);
                     }
@@ -133,7 +143,6 @@ public class TareaRepository : ITareaRepository{
                         tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
-                        tarea.Color = reader["color"].ToString();
                         tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
                         tarea.UsuarioAsignado = tarea.IdUsuarioAsignado != -1 ? reader["nombre_de_usuario"].ToString() : "No asignado";
                         tarea.TableroAsignado = tarea.Id_tablero != -1 ? reader["nombre_tablero"].ToString() : "No asignado";
@@ -142,6 +151,12 @@ public class TareaRepository : ITareaRepository{
                         }
                         else{
                             tarea.Estado = estadoTarea.ToDo;
+                        }
+                        if(Enum.TryParse(typeof(colorTarea), reader["color"].ToString(), out var color)){
+                            tarea.Color = (colorTarea)color;
+                        }
+                        else{
+                            tarea.Color = colorTarea.white;
                         }
                         listaTareas.Add(tarea);
                     }
@@ -175,7 +190,6 @@ public class TareaRepository : ITareaRepository{
                         tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
-                        tarea.Color = reader["color"].ToString();
                         tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
                         tarea.UsuarioAsignado = tarea.IdUsuarioAsignado != -1 ? reader["nombre_de_usuario"].ToString() : "No asignado";
                         tarea.TableroAsignado = tarea.Id_tablero != -1 ? reader["nombre_tablero"].ToString() : "No asignado";
@@ -184,6 +198,12 @@ public class TareaRepository : ITareaRepository{
                         }
                         else{
                             tarea.Estado = estadoTarea.ToDo;
+                        }
+                        if(Enum.TryParse(typeof(colorTarea), reader["color"].ToString(), out var color)){
+                            tarea.Color = (colorTarea)color;
+                        }
+                        else{
+                            tarea.Color = colorTarea.white;
                         }
                     }
                 }
@@ -234,13 +254,18 @@ public class TareaRepository : ITareaRepository{
                         tarea.Id_tablero = reader["id_tablero"] != DBNull.Value ? Convert.ToInt32(reader["id_tablero"]) : -1;
                         tarea.Nombre = reader["nombre"].ToString();
                         tarea.Descripcion = reader["descripcion"].ToString();
-                        tarea.Color = reader["color"].ToString();
                         tarea.IdUsuarioAsignado = reader["id_usuario_asignado"] != DBNull.Value ? Convert.ToInt32(reader["id_usuario_asignado"]) : -1;
                         if(Enum.TryParse(typeof(estadoTarea), reader["estado"].ToString(), out var est)){
                             tarea.Estado = (estadoTarea)est;
                         }
                         else{
                             tarea.Estado = estadoTarea.ToDo;
+                        }
+                        if(Enum.TryParse(typeof(colorTarea), reader["color"].ToString(), out var color)){
+                            tarea.Color = (colorTarea)color;
+                        }
+                        else{
+                            tarea.Color = colorTarea.white;
                         }
                         listaTareas.Add(tarea);
                     }
